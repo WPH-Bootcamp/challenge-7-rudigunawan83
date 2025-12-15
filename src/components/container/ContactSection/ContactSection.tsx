@@ -174,7 +174,7 @@ function PopupSuccess({ onClose }: { onClose: () => void }) {
   return (
     <div className="w-[380px] bg-neutral-900 rounded-2xl p-8 text-center border border-neutral-800 shadow-xl">
       <img
-        src="/icons/MessageOK.png"
+        src="/icons/message-ok.png"
         alt="Success"
         className="mx-auto mb-6 w-20"
       />
@@ -198,7 +198,7 @@ function PopupError({ onClose }: { onClose: () => void }) {
   return (
     <div className="w-[380px] bg-neutral-900 rounded-2xl p-8 text-center border border-neutral-800 shadow-xl">
       <img
-        src="/icons/MessageError.png"
+        src="/icons/message-error.png"
         alt="Error"
         className="mx-auto mb-6 w-20"
       />
