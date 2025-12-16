@@ -2,8 +2,30 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Button from "../../ui/Button";
 
+const NAV_OFFSET = 90; // tinggi navbar (px)
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const y =
+      el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+
+    window.scrollTo({
+      top: y,
+      behavior: "smooth",
+    });
+
+    setOpen(false);
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setOpen(false);
+  };
 
   return (
     <>
@@ -12,7 +34,10 @@ const Navbar = () => {
         <div className="container mx-auto px-6 py-5 flex items-center justify-between">
 
           {/* Logo */}
-          <div className="flex items-center gap-2 text-white font-semibold">
+          <div
+            className="flex items-center gap-2 text-white font-semibold cursor-pointer"
+            onClick={scrollToTop}
+          >
             <img
               src="/logo-symbol.png"
               alt="Company Logo"
@@ -23,16 +48,31 @@ const Navbar = () => {
 
           {/* DESKTOP MENU */}
           <nav className="hidden lg:flex gap-10 text-sm text-neutral-300">
-            <a href="#about" className="hover:text-white">About</a>
-            <a href="#services" className="hover:text-white">Service</a>
-            <a href="#portfolio" className="hover:text-white">Portfolio</a>
-            <a href="#testimonials" className="hover:text-white">Testimonials</a>
-            <a href="#faq" className="hover:text-white">FAQ</a>
+            <button onClick={() => scrollToSection("hero")} className="hover:text-white">
+              About
+            </button>
+            <button onClick={() => scrollToSection("services")} className="hover:text-white">
+              Service
+            </button>
+            <button onClick={() => scrollToSection("portfolio")} className="hover:text-white">
+              Portfolio
+            </button>
+            <button onClick={() => scrollToSection("testimonials")} className="hover:text-white">
+              Testimonials
+            </button>
+            <button onClick={() => scrollToSection("faq")} className="hover:text-white">
+              FAQ
+            </button>
           </nav>
 
           {/* DESKTOP CTA */}
           <div className="hidden lg:block">
-            <Button size="sm">Let's Talk</Button>
+            <Button
+              className="px-6 py-2 text-sm"
+              onClick={() => scrollToSection("contact")}
+            >
+              Let's Talk
+            </Button>
           </div>
 
           {/* MOBILE HAMBURGER */}
@@ -53,7 +93,10 @@ const Navbar = () => {
       >
         {/* Overlay Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-white/10 text-white">
-          <div className="flex items-center gap-2 font-semibold">
+          <div
+            className="flex items-center gap-2 font-semibold cursor-pointer"
+            onClick={scrollToTop}
+          >
             <img
               src="/logo-symbol.png"
               alt="Company Logo"
@@ -73,13 +116,26 @@ const Navbar = () => {
 
         {/* Overlay Menu */}
         <nav className="px-6 py-10 space-y-6 text-sm text-neutral-300">
-          <a href="#about" className="block">About</a>
-          <a href="#services" className="block">Service</a>
-          <a href="#portfolio" className="block">Portfolio</a>
-          <a href="#testimonials" className="block">Testimonials</a>
-          <a href="#faq" className="block">FAQ</a>
+          <button onClick={() => scrollToSection("about")} className="block w-full text-left">
+            About
+          </button>
+          <button onClick={() => scrollToSection("services")} className="block w-full text-left">
+            Service
+          </button>
+          <button onClick={() => scrollToSection("portfolio")} className="block w-full text-left">
+            Portfolio
+          </button>
+          <button onClick={() => scrollToSection("testimonials")} className="block w-full text-left">
+            Testimonials
+          </button>
+          <button onClick={() => scrollToSection("faq")} className="block w-full text-left">
+            FAQ
+          </button>
 
-          <Button className="w-full mt-10 py-4">
+          <Button
+            className="w-full mt-10 py-4"
+            onClick={() => scrollToSection("contact")}
+          >
             Let's Talk
           </Button>
         </nav>

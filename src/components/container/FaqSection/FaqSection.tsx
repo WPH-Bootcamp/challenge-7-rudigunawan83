@@ -37,7 +37,7 @@ const FaqSection = () => {
     const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
     return (
-        <section className="bg-black py-28">
+        <section id= "faq" className="bg-black py-28">
             <div className="container mx-auto px-6 grid lg:grid-cols-3 gap-14">
 
                 {/* LEFT – FAQ */}

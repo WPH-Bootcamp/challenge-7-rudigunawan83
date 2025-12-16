@@ -2,7 +2,7 @@ import Button from "../../ui/Button";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-black text-white pt-32">
+    <section id= "hero" className="relative min-h-screen overflow-hidden bg-black text-white pt-32">
 
       {/* ================= BACKGROUND GRADIENT SYSTEM ================= */}
       <div className="absolute inset-0 pointer-events-none">

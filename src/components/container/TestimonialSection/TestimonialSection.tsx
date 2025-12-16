@@ -92,7 +92,7 @@ export default function TestimonialSection() {
   }
 
   return (
-    <section className="bg-black py-32 overflow-hidden">
+    <section id="testimonials" className="bg-black py-32 overflow-hidden">
       <div className="container mx-auto px-6 text-center">
 
         {/* HEADER */}

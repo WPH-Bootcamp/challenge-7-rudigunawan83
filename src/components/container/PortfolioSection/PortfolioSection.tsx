@@ -24,7 +24,7 @@ const portfolios: PortfolioItem[] = [
 
 const PortfolioSection = () => {
   return (
-    <section className="bg-black py-32">
+    <section id="portfolio" className="bg-black py-32">
       <div className="container mx-auto px-6">
 
         {/* HEADER */}

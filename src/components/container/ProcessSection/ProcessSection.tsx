@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ChevronUp } from "lucide-react";
 
 type Step = {
@@ -56,8 +56,22 @@ const STEPS: Step[] = [
 const ProcessSection = () => {
   const [active, setActive] = useState<number | null>(null);
 
+  // refs for auto scroll
+  const itemRefs = useRef<Record<number, HTMLDivElement | null>>({});
+
   const toggle = (id: number) => {
-    setActive(active === id ? null : id);
+    const next = active === id ? null : id;
+    setActive(next);
+
+    // auto scroll after state update
+    setTimeout(() => {
+      if (next && itemRefs.current[next]) {
+        itemRefs.current[next]?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }, 50);
   };
 
   return (
@@ -72,16 +86,21 @@ const ProcessSection = () => {
           </p>
         </div>
 
-        {/* ================= MOBILE (STACKED) ================= */}
+        {/* ================= MOBILE ================= */}
         <div className="lg:hidden relative space-y-6 max-w-md mx-auto">
-          {/* vertical line */}
           <div className="absolute left-[18px] top-0 bottom-0 w-px bg-neutral-800" />
 
           {STEPS.map((step) => {
             const isOpen = active === step.id;
 
             return (
-              <div key={step.id} className="relative flex gap-4">
+              <div
+                key={step.id}
+                ref={(el) => {
+                  itemRefs.current[step.id] = el;
+                }}
+                className="relative flex gap-4"
+              >
                 {/* number */}
                 <div className="relative z-10">
                   <div className="w-9 h-9 rounded-full bg-orange-500 text-black flex items-center justify-center text-xs font-bold">
@@ -126,9 +145,8 @@ const ProcessSection = () => {
           })}
         </div>
 
-        {/* ================= DESKTOP (TIMELINE ZIG-ZAG) ================= */}
+        {/* ================= DESKTOP ================= */}
         <div className="hidden lg:block relative">
-          {/* center line */}
           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-neutral-800" />
 
           <div className="space-y-24">
@@ -137,8 +155,13 @@ const ProcessSection = () => {
               const isOpen = active === step.id;
 
               return (
-                <div key={step.id} className="relative grid grid-cols-2">
-                  {/* LEFT */}
+                <div
+                  key={step.id}
+                  ref={(el) => {
+                    itemRefs.current[step.id] = el;
+                  }}
+                  className="relative grid grid-cols-2"
+                >
                   {isLeft && (
                     <div className="pr-24 text-right">
                       <AccordionCard
@@ -149,7 +172,6 @@ const ProcessSection = () => {
                     </div>
                   )}
 
-                  {/* RIGHT */}
                   {!isLeft && (
                     <div className="col-start-2 pl-24">
                       <AccordionCard
@@ -160,7 +182,6 @@ const ProcessSection = () => {
                     </div>
                   )}
 
-                  {/* number */}
                   <div className="absolute left-1/2 -translate-x-1/2 top-6">
                     <div className="w-10 h-10 rounded-full bg-orange-500 text-black flex items-center justify-center text-sm font-bold">
                       {step.id}
@@ -179,7 +200,7 @@ const ProcessSection = () => {
 
 export default ProcessSection;
 
-/* ================= SUB COMPONENT ================= */
+/* ================= CARD ================= */
 
 type CardProps = {
   step: Step;

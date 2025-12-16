@@ -54,7 +54,8 @@ const services: Service[] = [
 
 const ServicesSection = () => {
   return (
-    <section className="bg-black py-28">
+    // ✅ SECTION ID DITAMBAHKAN DI SINI
+    <section id="services" className="bg-black py-28">
       <div className="container mx-auto px-6">
 
         {/* HEADER */}
@@ -81,6 +82,8 @@ const ServicesSection = () => {
 
 export default ServicesSection;
 
+/* ================= CARD ================= */
+
 const ServiceCard = ({
   title,
   description,
@@ -104,7 +107,7 @@ const ServiceCard = ({
         hover:shadow-[0_0_30px_rgba(255,115,45,0.08)]
       "
     >
-      {/* ICON FLOATING (NO BOX) */}
+      {/* ICON FLOATING */}
       <img
         src={icon}
         alt={title}
