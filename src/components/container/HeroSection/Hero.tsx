@@ -2,51 +2,76 @@ import Button from "../../ui/Button";
 
 const Hero = () => {
   return (
-    <section className="relative bg-black text-white overflow-hidden">
+    <section className="relative min-h-screen overflow-hidden bg-black text-white pt-32">
 
-      {/* === GRADIENT LAYERS === */}
+      {/* ================= BACKGROUND GRADIENT SYSTEM ================= */}
+      <div className="absolute inset-0 pointer-events-none">
 
-      {/* Glow besar kanan */}
-      <div className="absolute inset-0">
-        <div className="absolute right-[-20%] top-[-10%] w-[900px] h-[900px]
-          bg-[radial-gradient(circle,rgba(255,115,45,0.35),transparent_60%)]" />
+        {/* Base dark gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-[#0b0604]" />
+
+        {/* RIGHT SIDE — BIG SOFT ORANGE GLOW (MAIN FIX AREA) */}
+        <div
+          className="
+            absolute top-[-25%] right-[-15%]
+            w-[1200px] h-[1200px]
+            bg-[radial-gradient(circle,rgba(255,120,60,0.22),transparent_72%)]
+          "
+        />
+
+        {/* Secondary warm wash (diagonal light) */}
+        <div
+          className="
+            absolute top-0 right-0
+            w-full h-full
+            bg-[linear-gradient(135deg,transparent_55%,rgba(255,120,60,0.08)_75%,transparent_100%)]
+          "
+        />
+
+        {/* Vignette — bikin tepi gelap & tengah hidup */}
+        <div
+          className="
+            absolute inset-0
+            bg-[radial-gradient(circle_at_70%_50%,transparent_40%,rgba(0,0,0,0.85)_85%)]
+          "
+        />
       </div>
 
-      {/* Glow sedang tengah */}
-      <div className="absolute inset-0">
-        <div className="absolute right-[15%] top-[20%] w-[600px] h-[600px]
-          bg-[radial-gradient(circle,rgba(255,160,80,0.18),transparent_65%)]" />
-      </div>
-
-      {/* Shadow kiri */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.95),rgba(0,0,0,0.6),transparent)]" />
-
-      {/* === CONTENT === */}
-      <div className="relative container mx-auto px-6 pt-32 pb-20 grid lg:grid-cols-2 items-center gap-16">
+      {/* ================= HERO CONTENT ================= */}
+      <div className="relative z-10 container mx-auto px-6 pt-20 pb-24 grid lg:grid-cols-2 items-center gap-16">
 
         {/* LEFT TEXT */}
-        <div>
-          <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold leading-tight">
+        <div className="text-center lg:text-left">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold leading-tight">
             Your Tech Partner for <br />
             <span className="text-orange-500">Smarter Growth</span>
           </h1>
 
-          <p className="mt-6 text-neutral-400 max-w-lg">
+          <p className="mt-6 text-neutral-400 max-w-lg mx-auto lg:mx-0">
             We deliver tailored IT solutions to help you scale with speed
             and confidence.
           </p>
 
-          <Button className="mt-8 px-8 py-3">
-            Let's Talk
-          </Button>
+          <div className="mt-8 flex justify-center lg:justify-start">
+            <Button className="px-10 py-4">
+              Let&apos;s Talk
+            </Button>
+          </div>
         </div>
 
         {/* RIGHT IMAGE */}
-        <div className="relative hidden lg:flex justify-end">
+        <div className="mt-14 lg:mt-0 flex justify-center lg:justify-end relative">
           <img
             src="/hero-illustration.png"
             alt="Hero Illustration"
-            className="w-[520px] xl:w-[600px]"
+            className="
+              w-[260px]
+              sm:w-[300px]
+              md:w-[360px]
+              lg:w-[520px]
+              xl:w-[600px]
+              drop-shadow-[0_0_80px_rgba(255,120,60,0.25)]
+            "
           />
         </div>
 
