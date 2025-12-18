@@ -49,19 +49,30 @@ export default function ContactSection() {
   };
 
   return (
-    <section className="bg-black py-32 relative">
-      {/* ===== MAIN CONTAINER (720px) ===== */}
+    <section
+      id="contact"
+      className="
+        bg-black
+        w-full
+        h-[956px]
+        py-[80px]
+      "
+    >
+      {/* ===== MAIN CONTAINER ===== */}
       <div
         className="
-          w-[720px]
+          max-w-[1440px]
           mx-auto
+          px-[140px]
+          h-full
           flex
           flex-col
-          gap-[48px]
+          items-center
+          gap-[64px]
         "
       >
         {/* ================= HEADER ================= */}
-        <div className="text-center">
+        <div className="text-center max-w-[720px]">
           <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
             Ready to Start? Let’s Talk.
           </h2>
@@ -73,7 +84,12 @@ export default function ContactSection() {
         {/* ================= FORM ================= */}
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-[48px]"
+          className="
+            w-[720px]
+            flex
+            flex-col
+            gap-[48px]
+          "
         >
           <Input
             label="Name"
@@ -246,7 +262,7 @@ function Input({
         placeholder={placeholder}
         className="
           w-full h-12 rounded-xl
-          bg-neutral-900 border border-neutral-800
+          bg-neutral-800 border border-neutral-800
           px-4 text-white
           placeholder:text-neutral-500
           focus:outline-none focus:border-orange-500
@@ -310,7 +326,7 @@ function Checkbox({
             peer appearance-none
             w-4 h-4 rounded
             border border-neutral-600
-            bg-neutral-900
+            bg-neutral-800
             checked:bg-orange-500
             checked:border-orange-500
           "

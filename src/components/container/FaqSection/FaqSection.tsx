@@ -45,31 +45,45 @@ const FaqSection = () => {
   return (
     <section
       id="faq"
-      className="bg-black w-full h-[822px] py-[80px]"
+      className="
+        bg-black
+        w-full
+        h-[822px]
+        py-[80px]
+      "
     >
       {/* ===== MAIN CONTAINER ===== */}
-      <div className="max-w-[1440px] mx-auto px-[120px] h-full flex flex-col gap-[48px]">
-
-        {/* ================= HEADER (FULL WIDTH) ================= */}
+      <div
+        className="
+          max-w-[1440px]
+          mx-auto
+          px-[120px]
+          h-full
+          flex
+          flex-col
+          gap-[48px]
+        "
+      >
+        {/* ================= HEADER ================= */}
         <div>
           <div className="flex items-start justify-between">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-tight">
               Need Help? Start <br /> Here.
             </h2>
-           <p
-                className="
-                    font-quicksand
-                    font-medium
-                    text-lg
-                    leading-relaxed
-                    text-right
-                    text-[#A4A7AE]
-                    w-[245px]
-                "
-                >
-                Everything you need to know — all in one place.
-                </p>
 
+            <p
+              className="
+                font-quicksand
+                font-medium
+                text-lg
+                leading-relaxed
+                text-right
+                text-[#A4A7AE]
+                w-[245px]
+              "
+            >
+              Everything you need to know — all in one place.
+            </p>
           </div>
 
           {/* DIVIDER */}
@@ -78,8 +92,7 @@ const FaqSection = () => {
 
         {/* ================= CONTENT ================= */}
         <div className="grid lg:grid-cols-3 gap-[48px] flex-1">
-
-          {/* LEFT – FAQ LIST */}
+          {/* ===== LEFT – FAQ LIST ===== */}
           <div className="lg:col-span-2">
             <div className="divide-y divide-neutral-800">
               {faqs.map((faq, index) => {
@@ -113,10 +126,10 @@ const FaqSection = () => {
             </div>
           </div>
 
-          {/* ================= RIGHT – CTA CARD ================= */}
-            <div className="flex items-start justify-center">
+          {/* ===== RIGHT – CTA CARD ===== */}
+          <div className="flex items-start justify-center">
             <div
-                className="
+              className="
                 w-[329px]
                 rounded-[24px]
                 bg-[#CC4E32]
@@ -125,49 +138,47 @@ const FaqSection = () => {
                 flex-col
                 gap-6
                 text-white
-                "
+              "
             >
-                {/* TEXT */}
-                <div className="flex flex-col gap-2">
+              {/* TEXT */}
+              <div className="flex flex-col gap-2">
                 <h3 className="font-display text-2xl font-bold leading-snug">
-                    Let’s talk it <br /> through
+                  Let’s talk it <br /> through
                 </h3>
 
                 <p className="text-sm text-white/90">
-                    book a free consultation with <br /> our team.
+                  Book a free consultation with <br /> our team.
                 </p>
-                </div>
+              </div>
 
-                {/* IMAGE */}
-                <div className="w-full overflow-hidden rounded-2xl">
+              {/* IMAGE */}
+              <div className="w-full overflow-hidden rounded-2xl">
                 <img
-                    src="/consultation.jpg"
-                    alt="Consultation"
-                    className="w-full h-[153.38px] object-cover"
+                  src="/consultation.jpg"
+                  alt="Consultation"
+                  className="w-full h-[153.38px] object-cover"
                 />
-                </div>
+              </div>
 
-                {/* BUTTON */}
-                <button
+              {/* BUTTON */}
+              <button
                 className="
-                    mt-auto
-                    w-full
-                    h-[44px]
-                    rounded-full
-                    bg-white
-                    text-black
-                    text-sm
-                    font-semibold
-                    hover:bg-neutral-200
-                    transition
+                  mt-auto
+                  w-full
+                  h-[44px]
+                  rounded-full
+                  bg-white
+                  text-black
+                  text-sm
+                  font-semibold
+                  hover:bg-neutral-200
+                  transition
                 "
-                >
+              >
                 Free Consultation
-                </button>
+              </button>
             </div>
-            </div>
-
-
+          </div>
         </div>
       </div>
     </section>
