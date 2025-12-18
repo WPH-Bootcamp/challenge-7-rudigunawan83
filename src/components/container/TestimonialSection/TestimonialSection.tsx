@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+/* ================= TYPES ================= */
+
 type Testimonial = {
   quote: string;
   name: string;
@@ -7,6 +9,8 @@ type Testimonial = {
   avatar: string;
   rating: number;
 };
+
+/* ================= DATA ================= */
 
 const DATA: Testimonial[] = [
   {
@@ -35,12 +39,16 @@ const DATA: Testimonial[] = [
   },
 ];
 
-const CARD_WIDTH = 520;
-const GAP = 56;
+/* ================= CONFIG ================= */
+
+const CARD_WIDTH = 594;
+const GAP = 20;
 const SWIPE_THRESHOLD = 80;
 
 const items = [...DATA, ...DATA, ...DATA];
 const START_INDEX = DATA.length;
+
+/* ================= SECTION ================= */
 
 export default function TestimonialSection() {
   const [index, setIndex] = useState(START_INDEX);
@@ -50,110 +58,144 @@ export default function TestimonialSection() {
   const startX = useRef(0);
   const animating = useRef(false);
 
+  /* AUTO SLIDE */
   useEffect(() => {
     const id = setInterval(() => slideTo(index + 1), 5000);
     return () => clearInterval(id);
   }, [index]);
 
+  /* LOOP FIX */
   useEffect(() => {
     if (index === DATA.length * 2) snapTo(START_INDEX);
     if (index === DATA.length - 1) snapTo(START_INDEX - 1);
   }, [index]);
 
-  function snapTo(i: number) {
+  const snapTo = (i: number) => {
     animating.current = true;
     setIndex(i);
     requestAnimationFrame(() => (animating.current = false));
-  }
+  };
 
-  function slideTo(i: number) {
+  const slideTo = (i: number) => {
     if (animating.current) return;
     animating.current = true;
     setIndex(i);
     setOffset(0);
     setTimeout(() => (animating.current = false), 650);
-  }
+  };
 
-  function onPointerDown(e: React.PointerEvent) {
+  const onPointerDown = (e: React.PointerEvent) => {
     startX.current = e.clientX;
     setDragging(true);
-  }
+  };
 
-  function onPointerMove(e: React.PointerEvent) {
+  const onPointerMove = (e: React.PointerEvent) => {
     if (!dragging) return;
     setOffset(e.clientX - startX.current);
-  }
+  };
 
-  function onPointerUp() {
+  const onPointerUp = () => {
     setDragging(false);
     if (offset > SWIPE_THRESHOLD) slideTo(index - 1);
     else if (offset < -SWIPE_THRESHOLD) slideTo(index + 1);
     else setOffset(0);
-  }
+  };
 
   return (
-    <section id="testimonials" className="bg-black py-32 overflow-hidden">
-      <div className="container mx-auto px-6 text-center">
+  <section
+    id="testimonials"
+    className="
+      bg-black
+      w-full
+      h-[723px]              /* ⬅ FIX HEIGHT */
+      py-[80px]              /* ⬅ TOP & BOTTOM 80 */
+      overflow-visible
+    "
+  >
+    {/* ===== MAIN CONTAINER (1440px) ===== */}
+    <div
+      className="
+        max-w-[1440px]
+        mx-auto
+        px-[140px]
+        h-full
+        flex
+        flex-col
+        gap-[80px]            /* ⬅ GAP 80 */
+      "
+    >
+      {/* HEADER */}
+      <div className="text-center">
+        <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
+          What Partners Say About Working With Us
+        </h2>
+        <p className="mt-4 text-neutral-400">
+          Trusted voices. Real experiences. Proven results.
+        </p>
+      </div>
 
-        {/* HEADER */}
-        <div className="mb-28">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">
-            What Partners Say About Working With Us
-          </h2>
-          <p className="mt-4 text-neutral-400">
-            Trusted voices. Real experiences. Proven results.
-          </p>
-        </div>
-
-        {/* CAROUSEL */}
+      {/* ===== CARD CONTAINER ===== */}
+      <div
+        className="
+          relative
+          w-full
+          h-[420px]            /* cukup utk quote + avatar */
+          overflow-visible
+          touch-pan-y
+        "
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerLeave={onPointerUp}
+      >
         <div
-          className="relative max-w-7xl mx-auto overflow-x-hidden overflow-y-visible pb-28 touch-pan-y"
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={onPointerUp}
-          onPointerLeave={onPointerUp}
+          className={`flex items-center ${
+            dragging
+              ? ""
+              : "transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)]"
+          }`}
+          style={{
+            transform: `translateX(calc(50% - ${
+              index * (CARD_WIDTH + GAP) + CARD_WIDTH / 2
+            }px + ${offset}px))`,
+            gap: GAP,
+          }}
         >
-          <div
-            className={`flex ${
-              dragging ? "" : "transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)]"
-            }`}
-            style={{
-              transform: `translateX(calc(50% - ${
-                index * (CARD_WIDTH + GAP) + CARD_WIDTH / 2
-              }px + ${offset}px))`,
-              gap: GAP,
-            }}
-          >
-            {items.map((item, i) => (
-              <CarouselCard
-                key={`${item.name}-${i}`}
-                item={item}
-                active={i === index}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* BULLETS */}
-        <div className="mt-20 flex justify-center gap-3">
-          {DATA.map((_, i) => {
-            const real = index % DATA.length;
-            return (
-              <span
-                key={i}
-                className={`h-2 w-2 rounded-full transition-all ${
-                  i === real ? "bg-orange-500 scale-125" : "bg-neutral-600"
-                }`}
-              />
-            );
-          })}
+          {items.map((item, i) => (
+            <TestimonialCard
+              key={`${item.name}-${i}`}
+              item={item}
+              active={i === index}
+            />
+          ))}
         </div>
       </div>
-    </section>
-  );
+
+      {/* BULLETS */}
+      <div className="flex justify-center gap-3">
+        {DATA.map((_, i) => {
+          const real = index % DATA.length;
+          return (
+            <span
+              key={i}
+              className={`h-2 w-2 rounded-full transition-all ${
+                i === real
+                  ? "bg-orange-500 scale-125"
+                  : "bg-neutral-600"
+              }`}
+            />
+          );
+        })}
+      </div>
+    </div>
+  </section>
+);
+
 }
 
-function CarouselCard({
+/* ================= CARD ================= */
+
+function TestimonialCard({
   item,
   active,
 }: {
@@ -162,22 +204,25 @@ function CarouselCard({
 }) {
   return (
     <div
-      className={`
-        w-[520px]
-        h-[340px]
-        shrink-0
-        transition-all duration-700
-        ${active ? "scale-100 opacity-100" : "scale-[0.9] opacity-40"}
-      `}
+      className={`shrink-0 transition-all duration-700 ${
+        active ? "opacity-100 scale-100" : "opacity-40 scale-[0.92]"
+      }`}
+      style={{ width: CARD_WIDTH }}
     >
       <div
         className="
-          relative h-full overflow-visible
-          bg-neutral-900 rounded-2xl
-          border border-neutral-800
-          pt-14 pb-10 px-10
-          flex flex-col justify-between
-          shadow-[0_40px_100px_rgba(0,0,0,0.75)]
+          relative
+          h-[340px]
+          bg-[#0A0D12]
+          border border-[#181D27]
+          rounded-2xl
+          px-10
+          pt-20
+          pb-16
+          flex flex-col
+          items-center
+          gap-6
+          overflow-visible
         "
       >
         {/* QUOTE ICON */}
@@ -185,58 +230,55 @@ function CarouselCard({
           src="/icons/quote.png"
           alt="Quote"
           className="
-            absolute -top-7 left-8
-            w-12 h-12 z-30
+            absolute
+            -top-[32px]
+            left-10
+            w-20 h-20
+            z-50
             pointer-events-none
-            drop-shadow-[0_10px_30px_rgba(255,115,45,0.45)]
+            drop-shadow-[0_16px_40px_rgba(255,115,45,0.6)]
           "
         />
 
-        {/* CONTENT */}
-        <div className="relative z-20">
-          {/* STARS */}
-          <div className="flex justify-center gap-1 mb-6">
-            {Array.from({ length: item.rating }).map((_, i) => (
-              <span key={i} className="text-orange-400 text-xs">★</span>
-            ))}
-          </div>
+        {/* STAR RATING */}
+        <div className="flex gap-1">
+          {Array.from({ length: item.rating }).map((_, i) => (
+            <img
+              key={i}
+              src="/icons/star.png"
+              alt="Star"
+              className="w-6 h-6"
+            />
+          ))}
+        </div>
 
-          {/* QUOTE TEXT */}
-          <p
-            className={`
-              text-sm leading-relaxed text-center max-w-[420px] mx-auto
-              ${active ? "text-neutral-200" : "text-neutral-500"}
-            `}
-          >
-            {item.quote}
-          </p>
+        {/* QUOTE */}
+        <p className="font-quicksand font-semibold text-lg leading-relaxed text-center text-[#FDFDFD] max-w-[500px]">
+          “{item.quote}”
+        </p>
 
-          {/* AUTHOR */}
-          <div className="mt-6 text-center">
-            <p className="font-semibold text-white">{item.name}</p>
-            <p className="text-sm text-orange-500">{item.role}</p>
-          </div>
+        {/* AUTHOR */}
+        <div className="text-center">
+          <p className="font-semibold text-white">{item.name}</p>
+          <p className="text-sm text-orange-500">{item.role}</p>
         </div>
 
         {/* AVATAR */}
-        <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 z-30">
+        <div className="absolute -bottom-[36px] left-1/2 -translate-x-1/2 z-40">
           <img
             src={item.avatar}
             alt={item.name}
-            className="w-16 h-16 rounded-full object-cover border-2 border-neutral-800 bg-black"
-          />
-        </div>
-
-        {/* SIDE GRADIENT (ONLY FOR INACTIVE) */}
-        {!active && (
-          <div
             className="
-              absolute inset-0 rounded-2xl z-10
-              bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_45%,rgba(0,0,0,0.4)_70%,rgba(0,0,0,0.85)_100%)]
+              w-16 h-16
+              rounded-full
+              border-2 border-[#181D27]
+              bg-black
+              object-cover
             "
           />
-        )}
+        </div>
       </div>
     </div>
   );
 }
+ 

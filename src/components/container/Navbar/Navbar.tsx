@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Button from "../../ui/Button";
 
-const NAV_OFFSET = 90; // tinggi navbar (px)
+const NAV_OFFSET = 84; // tinggi navbar sesuai desain
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -11,8 +11,7 @@ const Navbar = () => {
     const el = document.getElementById(id);
     if (!el) return;
 
-    const y =
-      el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+    const y = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
 
     window.scrollTo({
       top: y,
@@ -29,11 +28,21 @@ const Navbar = () => {
 
   return (
     <>
-      {/* ================= HEADER ================= */}
+      {/* ================= NAVBAR ================= */}
       <header className="fixed top-0 left-0 w-full z-50 bg-black border-b border-white/10">
-        <div className="container mx-auto px-6 py-5 flex items-center justify-between">
-
-          {/* Logo */}
+        <div
+          className="
+            max-w-[1440px]
+            h-[84px]
+            mx-auto
+            px-4
+            lg:px-[140px]
+            flex
+            items-center
+            justify-between
+          "
+        >
+          {/* LOGO */}
           <div
             className="flex items-center gap-2 text-white font-semibold cursor-pointer"
             onClick={scrollToTop}
@@ -92,9 +101,9 @@ const Navbar = () => {
         ${open ? "translate-x-0 pointer-events-auto" : "translate-x-full pointer-events-none"}`}
       >
         {/* Overlay Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-white/10 text-white">
+        <div className="h-[84px] px-6 flex items-center justify-between border-b border-white/10">
           <div
-            className="flex items-center gap-2 font-semibold cursor-pointer"
+            className="flex items-center gap-2 text-white font-semibold cursor-pointer"
             onClick={scrollToTop}
           >
             <img
@@ -116,7 +125,7 @@ const Navbar = () => {
 
         {/* Overlay Menu */}
         <nav className="px-6 py-10 space-y-6 text-sm text-neutral-300">
-          <button onClick={() => scrollToSection("about")} className="block w-full text-left">
+          <button onClick={() => scrollToSection("hero")} className="block w-full text-left">
             About
           </button>
           <button onClick={() => scrollToSection("services")} className="block w-full text-left">

@@ -54,13 +54,22 @@ const services: Service[] = [
 
 const ServicesSection = () => {
   return (
-    // ✅ SECTION ID DITAMBAHKAN DI SINI
-    <section id="services" className="bg-black py-28">
-      <div className="container mx-auto px-6">
-
+    <section id="services" className="bg-black">
+      {/* ===== MAIN LAYOUT WRAPPER (DESIGN-GRADE) ===== */}
+      <div
+        className="
+          max-w-[1440px]
+          mx-auto
+          py-20
+          px-6
+          lg:px-[140px]
+          flex flex-col
+          gap-16
+        "
+      >
         {/* HEADER */}
-        <div className="text-center mb-20">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">
+        <div className="text-center">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
             Smart IT Solutions That Grow With You
           </h2>
           <p className="mt-4 text-neutral-400 max-w-2xl mx-auto">
@@ -74,7 +83,6 @@ const ServicesSection = () => {
             <ServiceCard key={service.title} {...service} />
           ))}
         </div>
-
       </div>
     </section>
   );

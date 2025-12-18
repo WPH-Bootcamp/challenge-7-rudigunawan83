@@ -10,13 +10,28 @@ const Button = ({
   className = "",
   ...props
 }: ButtonProps) => {
-  const base =
-    "px-6 py-3 rounded-full font-semibold transition-all duration-300";
+  const base = `
+    inline-flex items-center justify-center gap-1
+    w-[200px] h-[48px]
+    rounded-full
+    font-quicksand font-semibold
+    text-[14px] leading-[20px]
+    transition-all duration-300
+  `;
 
   const variants = {
-    primary: "bg-orange-500 text-black hover:bg-orange-400",
-    outline:
-      "border border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-black",
+    primary: `
+      bg-[#FF623E]
+      text-white
+      shadow-[inset_4px_4px_4px_rgba(255,255,255,0.25)]
+      hover:brightness-110
+    `,
+    outline: `
+      border border-[#FF623E]
+      text-[#FF623E]
+      hover:bg-[#FF623E]
+      hover:text-white
+    `,
   };
 
   return (

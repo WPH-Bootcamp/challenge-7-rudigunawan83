@@ -11,7 +11,7 @@ type FormState = {
   services: Record<string, boolean>;
 };
 
-/* ================= MAIN COMPONENT ================= */
+/* ================= COMPONENT ================= */
 
 export default function ContactSection() {
   const [form, setForm] = useState<FormState>({
@@ -30,11 +30,10 @@ export default function ContactSection() {
 
   const [popup, setPopup] = useState<PopupType | null>(null);
 
-  function isEmailValid(email: string) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
+  const isEmailValid = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (
@@ -47,65 +46,69 @@ export default function ContactSection() {
     }
 
     setPopup("success");
-  }
+  };
 
   return (
     <section className="bg-black py-32 relative">
-      <div className="container mx-auto px-6 max-w-3xl">
-
-        {/* HEADER */}
-        <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">
+      {/* ===== MAIN CONTAINER (720px) ===== */}
+      <div
+        className="
+          w-[720px]
+          mx-auto
+          flex
+          flex-col
+          gap-[48px]
+        "
+      >
+        {/* ================= HEADER ================= */}
+        <div className="text-center">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
             Ready to Start? Let’s Talk.
           </h2>
-          <p className="mt-3 text-neutral-400">
+          <p className="mt-4 text-neutral-400">
             Tell us what you need, and we’ll get back to you soon.
           </p>
         </div>
 
-        {/* FORM */}
-        <form onSubmit={handleSubmit} className="space-y-8">
-
+        {/* ================= FORM ================= */}
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-[48px]"
+        >
           <Input
             label="Name"
             value={form.name}
             placeholder="Enter your name"
-            onChange={(v: string) =>
-              setForm({ ...form, name: v })
-            }
+            onChange={(v) => setForm({ ...form, name: v })}
           />
 
           <Input
             label="Email"
             value={form.email}
             placeholder="Enter your email"
-            onChange={(v: string) =>
-              setForm({ ...form, email: v })
-            }
+            onChange={(v) => setForm({ ...form, email: v })}
           />
 
           <Textarea
             label="Message"
             value={form.message}
             placeholder="Enter your message"
-            onChange={(v: string) =>
-              setForm({ ...form, message: v })
-            }
+            onChange={(v) => setForm({ ...form, message: v })}
           />
 
-          {/* SERVICES */}
+          {/* ================= SERVICES ================= */}
           <div>
             <label className="block text-sm text-neutral-300 mb-4">
               Services
             </label>
 
-            <div className="grid grid-cols-2 gap-y-4 gap-x-8">
+            <div className="grid grid-cols-2 gap-x-8 gap-y-4">
               {Object.keys(form.services).map((key) => (
                 <Checkbox
                   key={key}
                   label={key}
                   checked={form.services[key]}
-                  onChange={(checked: boolean) =>
+                  onChange={(checked) =>
                     setForm({
                       ...form,
                       services: {
@@ -119,14 +122,18 @@ export default function ContactSection() {
             </div>
           </div>
 
+          {/* ================= BUTTON ================= */}
           <button
             type="submit"
             className="
-              w-full h-14 mt-6 rounded-full
+              w-full
+              h-14
+              rounded-full
               bg-gradient-to-r from-orange-500 to-orange-600
               text-white font-medium
               shadow-[0_10px_40px_rgba(255,115,45,0.35)]
-              hover:brightness-110 transition
+              hover:brightness-110
+              transition
             "
           >
             Send
@@ -134,7 +141,7 @@ export default function ContactSection() {
         </form>
       </div>
 
-      {/* POPUP */}
+      {/* ================= POPUP ================= */}
       {popup && (
         <Modal onClose={() => setPopup(null)}>
           {popup === "success" ? (
@@ -159,10 +166,7 @@ function Modal({
 }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-      <div
-        onClick={onClose}
-        className="absolute inset-0"
-      />
+      <div onClick={onClose} className="absolute inset-0" />
       <div className="relative z-10">{children}</div>
     </div>
   );
@@ -172,7 +176,7 @@ function Modal({
 
 function PopupSuccess({ onClose }: { onClose: () => void }) {
   return (
-    <div className="w-[380px] bg-neutral-900 rounded-2xl p-8 text-center border border-neutral-800 shadow-xl">
+    <div className="w-[380px] bg-neutral-900 rounded-2xl p-8 text-center border border-neutral-800">
       <img
         src="/icons/message-ok.png"
         alt="Success"
@@ -186,7 +190,7 @@ function PopupSuccess({ onClose }: { onClose: () => void }) {
       </p>
       <button
         onClick={onClose}
-        className="mt-6 w-full h-12 rounded-full bg-orange-500 text-white hover:brightness-110"
+        className="mt-6 w-full h-12 rounded-full bg-orange-500 text-white"
       >
         Back to Home
       </button>
@@ -196,7 +200,7 @@ function PopupSuccess({ onClose }: { onClose: () => void }) {
 
 function PopupError({ onClose }: { onClose: () => void }) {
   return (
-    <div className="w-[380px] bg-neutral-900 rounded-2xl p-8 text-center border border-neutral-800 shadow-xl">
+    <div className="w-[380px] bg-neutral-900 rounded-2xl p-8 text-center border border-neutral-800">
       <img
         src="/icons/message-error.png"
         alt="Error"
@@ -210,7 +214,7 @@ function PopupError({ onClose }: { onClose: () => void }) {
       </p>
       <button
         onClick={onClose}
-        className="mt-6 w-full h-12 rounded-full bg-orange-500 text-white hover:brightness-110"
+        className="mt-6 w-full h-12 rounded-full bg-orange-500 text-white"
       >
         Try Again
       </button>
@@ -296,40 +300,25 @@ function Checkbox({
   onChange: (checked: boolean) => void;
 }) {
   return (
-    <label className="flex items-center gap-3 cursor-pointer select-none">
+    <label className="flex items-center gap-3 cursor-pointer">
       <span className="relative">
         <input
           type="checkbox"
           checked={checked}
           onChange={(e) => onChange(e.target.checked)}
           className="
-            peer
-            appearance-none
-            w-4 h-4
-            rounded
+            peer appearance-none
+            w-4 h-4 rounded
             border border-neutral-600
             bg-neutral-900
             checked:bg-orange-500
             checked:border-orange-500
-            transition
           "
         />
-
-        {/* WHITE CHECK ICON */}
-        <span
-          className="
-            pointer-events-none
-            absolute inset-0
-            flex items-center justify-center
-            text-white text-[10px] font-bold
-            opacity-0
-            peer-checked:opacity-100
-          "
-        >
+        <span className="absolute inset-0 flex items-center justify-center text-white text-[10px] font-bold opacity-0 peer-checked:opacity-100">
           ✓
         </span>
       </span>
-
       <span className="text-sm text-neutral-300">{label}</span>
     </label>
   );

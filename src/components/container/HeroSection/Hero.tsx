@@ -2,33 +2,41 @@ import Button from "../../ui/Button";
 
 const Hero = () => {
   return (
-    <section id= "hero" className="relative min-h-screen overflow-hidden bg-black text-white pt-32">
-
-      {/* ================= BACKGROUND GRADIENT SYSTEM ================= */}
+    <section
+      id="hero"
+      className="
+        relative
+        bg-black
+        text-white
+        overflow-hidden
+      "
+    >
+      {/* ===== BACKGROUND GRADIENT SYSTEM ===== */}
       <div className="absolute inset-0 pointer-events-none">
-
-        {/* Base dark gradient */}
+        {/* Base dark */}
         <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-[#0b0604]" />
 
-        {/* RIGHT SIDE — BIG SOFT ORANGE GLOW (MAIN FIX AREA) */}
+        {/* Big orange glow (right) */}
         <div
           className="
-            absolute top-[-25%] right-[-15%]
-            w-[1200px] h-[1200px]
+            absolute
+            top-[-25%]
+            right-[-15%]
+            w-[1200px]
+            h-[1200px]
             bg-[radial-gradient(circle,rgba(255,120,60,0.22),transparent_72%)]
           "
         />
 
-        {/* Secondary warm wash (diagonal light) */}
+        {/* Diagonal warm wash */}
         <div
           className="
-            absolute top-0 right-0
-            w-full h-full
+            absolute inset-0
             bg-[linear-gradient(135deg,transparent_55%,rgba(255,120,60,0.08)_75%,transparent_100%)]
           "
         />
 
-        {/* Vignette — bikin tepi gelap & tengah hidup */}
+        {/* Vignette */}
         <div
           className="
             absolute inset-0
@@ -37,19 +45,50 @@ const Hero = () => {
         />
       </div>
 
-      {/* ================= HERO CONTENT ================= */}
-      <div className="relative z-10 container mx-auto px-6 pt-20 pb-24 grid lg:grid-cols-2 items-center gap-16">
-
-        {/* LEFT TEXT */}
+      {/* ===== CONTENT WRAPPER (1440 × 732) ===== */}
+      <div
+        className="
+          relative z-10
+          max-w-[1440px]
+          min-h-[732px]
+          mx-auto
+          px-4 sm:px-6 lg:px-[140px]
+          grid
+          lg:grid-cols-2
+          items-center
+          gap-16
+        "
+      >
+        {/* ===== LEFT TEXT ===== */}
         <div className="text-center lg:text-left">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold leading-tight">
+          <h1
+            className="
+              font-display
+              font-bold
+              text-3xl sm:text-4xl md:text-5xl xl:text-[64px]
+              leading-[1.05]
+              tracking-[-0.02em]
+            "
+          >
             Your Tech Partner for <br />
-            <span className="text-orange-500">Smarter Growth</span>
+            <span className="text-[#FF6C37]">Smarter Growth</span>
           </h1>
 
-          <p className="mt-6 text-neutral-400 max-w-lg mx-auto lg:mx-0">
-            We deliver tailored IT solutions to help you scale with speed
-            and confidence.
+          <p
+            className="
+              mt-6
+              font-quicksand
+              font-semibold
+              text-xl
+              leading-normal
+              tracking-normal
+              text-[#FDFDFD]
+              max-w-lg
+              mx-auto
+              lg:mx-0
+            "
+          >
+            We deliver tailored IT solutions to help you scale with speed and confidence.
           </p>
 
           <div className="mt-8 flex justify-center lg:justify-start">
@@ -59,19 +98,28 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* RIGHT IMAGE */}
-        <div className="mt-14 lg:mt-0 flex justify-center lg:justify-end relative">
+        {/* ===== RIGHT IMAGE ===== */}
+        <div
+          className="
+    relative
+    flex
+    justify-center
+    lg:justify-end
+  "
+        >
           <img
             src="/hero-illustration.png"
             alt="Hero Illustration"
             className="
-              w-[260px]
-              sm:w-[300px]
-              md:w-[360px]
-              lg:w-[520px]
-              xl:w-[600px]
-              drop-shadow-[0_0_80px_rgba(255,120,60,0.25)]
-            "
+      w-[260px]
+      h-[260px]
+      sm:w-[320px] sm:h-[320px]
+      md:w-[420px] md:h-[420px]
+      lg:w-[747px] lg:h-[747px]
+      object-contain
+      opacity-100
+      drop-shadow-[0_0_80px_rgba(255,120,60,0.25)]
+    "
           />
         </div>
 
