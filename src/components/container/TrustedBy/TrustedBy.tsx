@@ -27,10 +27,15 @@ const TrustedBy = () => {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
+
         .marquee-track {
           display: flex;
           width: max-content;
           animation: marquee 30s linear infinite;
+        }
+
+        .marquee-track:hover {
+          animation-play-state: paused;
         }
       `}</style>
 
@@ -58,27 +63,23 @@ const TrustedBy = () => {
             text-center
             text-neutral-800
             dark:text-[#FDFDFD]
-            transition-colors
           "
         >
           Trusted by Global Innovators &amp; Leading Brands
         </p>
 
-        {/* MARQUEE */}
-        <div className="relative overflow-hidden">
+        {/* MARQUEE (GROUP HOVER ROOT) */}
+        <div className="relative overflow-hidden group">
           {/* LEFT FADE */}
           <div
             className="
               pointer-events-none
-              absolute
-              left-0 top-0
+              absolute left-0 top-0
               h-full w-24
               bg-gradient-to-r
-              from-white
-              dark:from-black
+              from-white dark:from-black
               to-transparent
               z-10
-              transition-colors
             "
           />
 
@@ -86,15 +87,12 @@ const TrustedBy = () => {
           <div
             className="
               pointer-events-none
-              absolute
-              right-0 top-0
+              absolute right-0 top-0
               h-full w-24
               bg-gradient-to-l
-              from-white
-              dark:from-black
+              from-white dark:from-black
               to-transparent
               z-10
-              transition-colors
             "
           />
 
@@ -108,13 +106,14 @@ const TrustedBy = () => {
                 <img
                   src={brand.logo}
                   alt={brand.name}
+                  loading="lazy"
                   className="
                     h-6 md:h-7
-                    opacity-60
                     grayscale
-                    transition-all duration-300
-                    hover:opacity-100
-                    hover:grayscale-0
+                    opacity-60
+                    transition-all duration-300 ease-out
+                    group-hover:grayscale-0
+                    group-hover:opacity-100
                   "
                 />
               </div>

@@ -1,25 +1,29 @@
 import Button from "../../ui/Button";
 
+const NAV_HEIGHT = 84;
+
 const Hero = () => {
   return (
     <section
-      id="hero"
+      id="About"
       className="
         relative overflow-hidden
         bg-white dark:bg-black
         transition-colors duration-300
+        scroll-mt-[84px]
       "
     >
       {/* ================= BACKGROUND ================= */}
       <div className="absolute inset-0 pointer-events-none">
         {/* DARK BACKGROUND */}
         <div className="absolute inset-0 hidden dark:block">
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-[#0b0604]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-[#0b0b0b]" />
+
+          {/* CLEAN DARK VIGNETTE (NO ORANGE HALO) */}
           <div
             className="
-              absolute top-[-25%] right-[-15%]
-              w-[1200px] h-[1200px]
-              bg-[radial-gradient(circle,rgba(255,120,60,0.22),transparent_72%)]
+              absolute inset-0
+              bg-[radial-gradient(circle_at_60%_50%,rgba(0,0,0,0)_40%,rgba(0,0,0,0.9)_85%)]
             "
           />
         </div>
@@ -28,20 +32,6 @@ const Hero = () => {
         <div className="absolute inset-0 block dark:hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-[#FFF7F3]" />
         </div>
-
-        {/* DARK ONLY EFFECTS */}
-        <div
-          className="
-            absolute inset-0 hidden dark:block
-            bg-[linear-gradient(135deg,transparent_55%,rgba(255,120,60,0.08)_75%,transparent_100%)]
-          "
-        />
-        <div
-          className="
-            absolute inset-0 hidden dark:block
-            bg-[radial-gradient(circle_at_70%_50%,transparent_40%,rgba(0,0,0,0.85)_85%)]
-          "
-        />
       </div>
 
       {/* ================= CONTENT ================= */}
@@ -49,12 +39,15 @@ const Hero = () => {
         className="
           relative z-10
           max-w-[1440px]
-          min-h-[732px]
+
+          pt-[84px] lg:pt-0
+          min-h-[calc(100svh-84px)] lg:min-h-[732px]
+
           mx-auto
           px-6 lg:px-[140px]
           grid lg:grid-cols-2
           items-center
-          gap-16
+          gap-12 lg:gap-16
         "
       >
         {/* ================= LEFT TEXT ================= */}
@@ -63,8 +56,9 @@ const Hero = () => {
             className="
               font-display font-bold
               text-3xl sm:text-4xl md:text-5xl xl:text-[64px]
-              leading-[1.05] tracking-[-0.02em]
+              leading-[1.1] tracking-[-0.02em]
               text-black dark:text-white
+              text-balance
             "
           >
             Your Tech Partner for <br />
@@ -73,14 +67,16 @@ const Hero = () => {
 
           <p
             className="
-              mt-6
-              font-quicksand font-semibold
-              text-lg md:text-xl
-              text-neutral-700 dark:text-white
+              mt-5 md:mt-6
+              font-quicksand font-medium
+              text-base sm:text-lg md:text-xl
+              leading-relaxed
+              text-neutral-700 dark:text-neutral-300
               max-w-lg mx-auto lg:mx-0
             "
           >
-            We deliver tailored IT solutions to help you scale with speed and confidence.
+            We deliver tailored IT solutions to help you scale with speed and
+            confidence.
           </p>
 
           <div className="mt-8 flex justify-center lg:justify-start">
@@ -98,8 +94,8 @@ const Hero = () => {
             alt="Hero Illustration Light"
             className="
               block dark:hidden
-              w-[260px] h-[260px]
-              sm:w-[320px] sm:h-[320px]
+              w-[240px] h-[240px]
+              sm:w-[300px] sm:h-[300px]
               md:w-[420px] md:h-[420px]
               lg:w-[747px] lg:h-[747px]
               object-contain
@@ -112,12 +108,11 @@ const Hero = () => {
             alt="Hero Illustration Dark"
             className="
               hidden dark:block
-              w-[260px] h-[260px]
-              sm:w-[320px] sm:h-[320px]
+              w-[240px] h-[240px]
+              sm:w-[300px] sm:h-[300px]
               md:w-[420px] md:h-[420px]
               lg:w-[747px] lg:h-[747px]
               object-contain
-              drop-shadow-[0_0_80px_rgba(255,120,60,0.25)]
             "
           />
         </div>

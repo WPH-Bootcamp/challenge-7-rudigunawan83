@@ -39,12 +39,13 @@ const DATA: Testimonial[] = [
   },
 ];
 
-/* ================= CONFIG ================= */
+/* ================= LAYOUT CONFIG ================= */
 
-const CARD_WIDTH = 594;
 const GAP = 20;
-const SWIPE_THRESHOLD = 80;
+const CARD_WIDTH = 594;
+const CARD_HEIGHT = 292;
 
+const SWIPE_THRESHOLD = 80;
 const items = [...DATA, ...DATA, ...DATA];
 const START_INDEX = DATA.length;
 
@@ -108,29 +109,24 @@ const TestimonialSection = () => {
       className="
         w-full
         py-[80px]
-        lg:h-[723px]
         bg-white text-black
         dark:bg-black dark:text-white
         transition-colors duration-300
+        scroll-mt-[84px]
         overflow-visible
       "
     >
-      {/* ===== MAIN CONTAINER ===== */}
       <div
         className="
           max-w-[1440px]
           mx-auto
-          px-6
-          md:px-12
-          lg:px-[140px]
-          h-full
-          flex
-          flex-col
+          px-6 md:px-12 lg:px-[140px]
+          flex flex-col
           gap-[64px]
-          lg:gap-[80px]
+          overflow-visible
         "
       >
-        {/* ================= HEADER ================= */}
+        {/* HEADER */}
         <div className="text-center max-w-2xl mx-auto">
           <h2 className="font-display text-3xl md:text-4xl font-bold">
             What Partners Say About Working With Us
@@ -140,12 +136,14 @@ const TestimonialSection = () => {
           </p>
         </div>
 
-        {/* ================= SLIDER ================= */}
+        {/* SLIDER */}
         <div
           className="
             relative
+            mx-auto
             w-full
-            h-[420px]
+            max-w-[1160px]
+            h-[292px]
             overflow-visible
             touch-pan-y
           "
@@ -177,7 +175,7 @@ const TestimonialSection = () => {
           </div>
         </div>
 
-        {/* ================= BULLETS ================= */}
+        {/* BULLETS */}
         <div className="flex justify-center gap-3">
           {DATA.map((_, i) => {
             const real = index % DATA.length;
@@ -210,79 +208,86 @@ type CardProps = {
 const TestimonialCard = ({ item, active }: CardProps) => {
   return (
     <div
-      className={`shrink-0 transition-all duration-700 ${
-        active ? "opacity-100 scale-100" : "opacity-40 scale-[0.92]"
+      className={`shrink-0 transition-all duration-700 overflow-visible ${
+        active ? "opacity-100 scale-100" : "opacity-40 scale-[0.96]"
       }`}
       style={{ width: CARD_WIDTH }}
     >
+      {/* GRADIENT BORDER */}
       <div
         className="
           relative
-          h-[340px]
+          w-[594px] h-[292px]
+          p-[1px]
           rounded-2xl
-          px-10
-          pt-20
-          pb-16
-          flex flex-col
-          items-center
-          gap-6
           overflow-visible
-
-          bg-neutral-100 dark:bg-[#0A0D12]
-          border border-neutral-200 dark:border-[#181D27]
-          transition-colors
+          bg-[linear-gradient(116.18deg,#FF6C37_-22.52%,#181D27_33.35%)]
         "
       >
-        {/* QUOTE ICON */}
-        <img
-          src="/icons/quote.png"
-          alt="Quote"
+        {/* CARD */}
+        <div
           className="
-            absolute
-            -top-[32px]
-            left-10
-            w-20 h-20
-            pointer-events-none
-            drop-shadow-[0_16px_40px_rgba(255,115,45,0.6)]
+            relative
+            w-full h-full
+            rounded-2xl
+            bg-neutral-100 dark:bg-[#0A0D12]
+            px-6 pt-6 pb-12
+            flex flex-col
+            items-center
+            gap-6
+            overflow-visible
           "
-        />
-
-        {/* STAR */}
-        <div className="flex gap-1">
-          {Array.from({ length: item.rating }).map((_, i) => (
-            <img
-              key={i}
-              src="/icons/star.png"
-              alt="Star"
-              className="w-6 h-6"
-            />
-          ))}
-        </div>
-
-        {/* QUOTE */}
-        <p className="font-quicksand font-semibold text-lg leading-relaxed text-center max-w-[500px] text-neutral-800 dark:text-[#FDFDFD]">
-          “{item.quote}”
-        </p>
-
-        {/* AUTHOR */}
-        <div className="text-center">
-          <p className="font-semibold">{item.name}</p>
-          <p className="text-sm text-orange-500">{item.role}</p>
-        </div>
-
-        {/* AVATAR */}
-        <div className="absolute -bottom-[36px] left-1/2 -translate-x-1/2">
+        >
+          {/* QUOTE ICON */}
           <img
-            src={item.avatar}
-            alt={item.name}
+            src="/icons/quote.png"
+            alt="Quote"
             className="
-              w-16 h-16
-              rounded-full
-              object-cover
-              bg-white dark:bg-black
-              border-2 border-neutral-200 dark:border-[#181D27]
+              absolute
+              -top-[22px]
+              left-6
+              w-14 h-14
+              pointer-events-none
             "
           />
+
+          {/* STARS */}
+          <div className="flex gap-1 mt-4">
+            {Array.from({ length: item.rating }).map((_, i) => (
+              <img
+                key={i}
+                src="/icons/star.png"
+                alt="Star"
+                className="w-5 h-5"
+              />
+            ))}
+          </div>
+
+          {/* QUOTE */}
+          <p className="font-quicksand font-semibold text-sm leading-relaxed text-center text-neutral-800 dark:text-[#FDFDFD]">
+            “{item.quote}”
+          </p>
+
+          {/* AUTHOR */}
+          <div className="mt-auto text-center">
+            <p className="font-semibold">{item.name}</p>
+            <p className="text-sm text-orange-500">{item.role}</p>
+          </div>
+
+          {/* AVATAR */}
+          <div className="absolute -bottom-[36px] left-1/2 -translate-x-1/2">
+            <img
+              src={item.avatar}
+              alt={item.name}
+              className="
+                w-16 h-16
+                rounded-full
+                object-cover
+                bg-white dark:bg-black
+                border-2 border-neutral-200 dark:border-[#181D27]
+              "
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -60,21 +60,16 @@ export default function ContactSection() {
         lg:h-[956px]
       "
     >
-      {/* ===== MAIN CONTAINER ===== */}
       <div
         className="
           max-w-[1440px]
           mx-auto
-          px-6
-          md:px-12
-          lg:px-[140px]
-          flex
-          flex-col
-          items-center
+          px-6 md:px-12 lg:px-[140px]
+          flex flex-col items-center
           gap-[64px]
         "
       >
-        {/* ================= HEADER ================= */}
+        {/* HEADER */}
         <div className="text-center max-w-[720px]">
           <h2 className="font-display text-3xl md:text-4xl font-bold">
             Ready to Start? Let’s Talk.
@@ -84,16 +79,10 @@ export default function ContactSection() {
           </p>
         </div>
 
-        {/* ================= FORM ================= */}
+        {/* FORM */}
         <form
           onSubmit={handleSubmit}
-          className="
-            w-full
-            max-w-[720px]
-            flex
-            flex-col
-            gap-[48px]
-          "
+          className="w-full max-w-[720px] flex flex-col gap-[48px]"
         >
           <Input
             label="Name"
@@ -116,21 +105,13 @@ export default function ContactSection() {
             onChange={(v) => setForm({ ...form, message: v })}
           />
 
-          {/* ================= SERVICES ================= */}
+          {/* SERVICES */}
           <div>
             <label className="block text-sm mb-4 text-neutral-700 dark:text-neutral-300">
               Services
             </label>
 
-            <div
-              className="
-                grid
-                grid-cols-1
-                sm:grid-cols-2
-                gap-x-8
-                gap-y-4
-              "
-            >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
               {Object.keys(form.services).map((key) => (
                 <Checkbox
                   key={key}
@@ -150,7 +131,7 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* ================= BUTTON ================= */}
+          {/* BUTTON */}
           <button
             type="submit"
             className="
@@ -167,7 +148,7 @@ export default function ContactSection() {
         </form>
       </div>
 
-      {/* ================= POPUP ================= */}
+      {/* POPUP */}
       {popup && (
         <Modal onClose={() => setPopup(null)}>
           {popup === "success" ? (
@@ -214,14 +195,7 @@ function PopupBase({
   onClose: () => void;
 }) {
   return (
-    <div
-      className="
-        w-full rounded-2xl p-8 text-center
-        bg-white dark:bg-[#0A0D12]
-        border border-neutral-200 dark:border-[#181D27]
-        transition-colors
-      "
-    >
+    <div className="w-full rounded-2xl p-8 text-center bg-white dark:bg-[#0A0D12] border border-neutral-200 dark:border-[#181D27]">
       <img src={icon} alt={title} className="mx-auto mb-6 w-20" />
       <h3 className="text-lg font-semibold">{title}</h3>
       <p className="text-sm mt-2 text-neutral-600 dark:text-neutral-400">
@@ -262,7 +236,6 @@ function PopupError({ onClose }: { onClose: () => void }) {
 }
 
 /* ================= INPUTS ================= */
-
 function Input({
   label,
   value,
@@ -276,26 +249,43 @@ function Input({
 }) {
   return (
     <div>
-      <label className="block text-sm mb-2 text-neutral-700 dark:text-neutral-300">
+      <label className="block text-sm mb-2 text-neutral-700 dark:text-white">
         {label}
       </label>
-      <input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="
-          w-full h-12 rounded-xl px-4
-          bg-white dark:bg-neutral-900
-          border border-neutral-300 dark:border-neutral-800
-          text-black dark:text-white
-          placeholder:text-neutral-400
-          focus:outline-none focus:border-orange-500
-          transition-colors
-        "
-      />
+
+     <input
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            className="
+              w-full h-14 rounded-xl px-5
+
+              /* LIGHT MODE */
+              bg-white
+              border border-neutral-300
+              text-black
+              placeholder:text-neutral-400
+
+              /* DARK MODE */
+              dark:bg-black
+              dark:border-neutral-700
+              dark:text-white
+              dark:placeholder:text-neutral-500
+
+              focus:outline-none
+              focus:border-orange-500
+              dark:focus:border-neutral-500
+
+              transition-colors duration-200
+            "
+          />
+
     </div>
   );
 }
+
+
+/* ================= TEXT AREA ================= */
 
 function Textarea({
   label,
@@ -310,27 +300,39 @@ function Textarea({
 }) {
   return (
     <div>
-      <label className="block text-sm mb-2 text-neutral-700 dark:text-neutral-300">
+      <label className="block text-sm mb-2 text-neutral-700 dark:text-white">
         {label}
       </label>
+
       <textarea
         rows={5}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         className="
-          w-full rounded-xl px-4 py-3 resize-none
-          bg-white dark:bg-neutral-900
-          border border-neutral-300 dark:border-neutral-800
-          text-black dark:text-white
+          w-full rounded-xl px-5 py-4 resize-none
+          bg-white
+          border border-neutral-300
+          text-black
           placeholder:text-neutral-400
-          focus:outline-none focus:border-orange-500
-          transition-colors
+
+          dark:bg-black
+          dark:border-neutral-700
+          dark:text-white
+          dark:placeholder:text-neutral-500
+
+          focus:outline-none
+          focus:border-orange-500
+          dark:focus:border-neutral-400
+
+          transition-colors duration-200
         "
       />
     </div>
   );
 }
+
+/* ================= CHECKBOX ================= */
 
 function Checkbox({
   label,
@@ -342,24 +344,48 @@ function Checkbox({
   onChange: (checked: boolean) => void;
 }) {
   return (
-    <label className="flex items-center gap-3 cursor-pointer">
-      <span className="relative">
+    <label className="flex items-center gap-3 cursor-pointer select-none">
+      {/* CHECK ICON CONTAINER */}
+      <span
+        className={`
+          flex items-center justify-center
+          w-6 h-6
+          rounded-lg
+          transition-all duration-200
+          ${
+            checked
+              ? "bg-orange-500 shadow-[0_6px_20px_rgba(255,115,45,0.45)]"
+              : "bg-white dark:bg-neutral-900 border border-neutral-400 dark:border-neutral-600"
+          }
+        `}
+      >
         <input
           type="checkbox"
           checked={checked}
           onChange={(e) => onChange(e.target.checked)}
-          className="
-            peer appearance-none w-4 h-4 rounded
-            border border-neutral-400 dark:border-neutral-600
-            bg-white dark:bg-neutral-900
-            checked:bg-orange-500 checked:border-orange-500
-            transition
-          "
+          className="sr-only"
         />
-        <span className="absolute inset-0 flex items-center justify-center text-white text-[10px] font-bold opacity-0 peer-checked:opacity-100">
-          ✓
-        </span>
+
+        {/* CHECK SVG */}
+        <svg
+          className={`
+            w-4 h-4
+            text-white
+            transition-all duration-200
+            ${checked ? "opacity-100 scale-100" : "opacity-0 scale-75"}
+          `}
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M16.707 5.293a1 1 0 010 1.414l-7.25 7.25a1 1 0 01-1.414 0l-3.25-3.25a1 1 0 111.414-1.414l2.543 2.543 6.543-6.543a1 1 0 011.414 0z"
+            clipRule="evenodd"
+          />
+        </svg>
       </span>
+
+      {/* LABEL */}
       <span className="text-sm text-neutral-700 dark:text-neutral-300">
         {label}
       </span>

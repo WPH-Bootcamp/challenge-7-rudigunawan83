@@ -55,11 +55,12 @@ const services: Service[] = [
 const ServicesSection = () => {
   return (
     <section
-      id="services"
+      id="Service"
       className="
         bg-white text-black
         dark:bg-black dark:text-white
         transition-colors duration-300
+        scroll-mt-[84px]
       "
     >
       {/* ===== WRAPPER ===== */}

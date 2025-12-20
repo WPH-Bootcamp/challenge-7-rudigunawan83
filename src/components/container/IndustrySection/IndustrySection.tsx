@@ -36,11 +36,12 @@ const IndustrySection = () => {
 
   return (
     <section
-      id="industry"
+      id="Projects"
       className="
         bg-white text-black
         dark:bg-black dark:text-white
         transition-colors duration-300
+        scroll-mt-[84px]
       "
     >
       {/* ================= OUTER WRAPPER ================= */}

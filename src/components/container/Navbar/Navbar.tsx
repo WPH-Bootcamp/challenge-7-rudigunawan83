@@ -3,14 +3,20 @@ import { Menu, X, Sun, Moon } from "lucide-react";
 import Button from "../../ui/Button";
 
 const NAV_OFFSET = 84;
-
 type Theme = "light" | "dark";
 
-const MENU = ["hero", "services", "portfolio", "testimonials", "faq"];
+const MENU = [
+  { label: "About", target: "about" },
+  { label: "Service", target: "service" },
+  { label: "Projects", target: "projects" },
+  { label: "Testimonials", target: "testimonials" },
+  { label: "FAQ", target: "faq" },
+];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>("light");
+  const [scrolled, setScrolled] = useState(false);
 
   /* ================= INIT THEME ================= */
   useEffect(() => {
@@ -22,18 +28,31 @@ const Navbar = () => {
   /* ================= APPLY THEME ================= */
   useEffect(() => {
     const root = document.documentElement;
-    theme === "dark" ? root.classList.add("dark") : root.classList.remove("dark");
+    theme === "dark"
+      ? root.classList.add("dark")
+      : root.classList.remove("dark");
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  /* ================= TOGGLE THEME ================= */
-  const toggleTheme = () => setTheme((p) => (p === "dark" ? "light" : "dark"));
+  /* ================= SCROLL LISTENER ================= */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-  /* ================= SCROLL ================= */
+  /* ================= TOGGLE THEME ================= */
+  const toggleTheme = () =>
+    setTheme((p) => (p === "dark" ? "light" : "dark"));
+
+  /* ================= SCROLL TO SECTION ================= */
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
-    const y = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+
+    const y =
+      el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+
     window.scrollTo({ top: y, behavior: "smooth" });
     setOpen(false);
   };
@@ -47,12 +66,24 @@ const Navbar = () => {
     <>
       {/* ================= NAVBAR ================= */}
       <header
-        className="
+        className={`
           fixed top-0 left-0 w-full z-50
-          bg-white dark:bg-black
-          border-b border-neutral-200 dark:border-white/10
-          transition-colors duration-300
-        "
+          transition-all duration-300
+          ${
+            scrolled
+              ? `
+                backdrop-blur-xl
+                bg-white/60 dark:bg-black/60
+                border-b border-white/30 dark:border-white/10
+                shadow-[0_8px_30px_rgba(0,0,0,0.08)]
+              `
+              : `
+                backdrop-blur-xl
+                bg-white/40 dark:bg-black/40
+                border-b border-white/20 dark:border-white/10
+              `
+          }
+        `}
       >
         <div
           className="
@@ -68,41 +99,47 @@ const Navbar = () => {
             onClick={scrollToTop}
             className="flex items-center gap-2 font-semibold cursor-pointer text-black dark:text-white"
           >
-            <img src="/logo-symbol.png" alt="Company Logo" className="h-8 w-auto" />
+            <img
+              src="/logo-symbol.png"
+              alt="Company Logo"
+              className="h-8 w-auto"
+            />
             Your Logo
           </div>
 
-          {/* DESKTOP MENU */}
-          <nav className="hidden lg:flex gap-10 text-sm text-neutral-600 dark:text-neutral-300">
-            {MENU.map((id) => (
+          {/* ================= DESKTOP MENU ================= */}
+          <nav className="hidden lg:flex gap-2 text-sm">
+            {MENU.map((item) => (
               <button
-                key={id}
-                onClick={() => scrollToSection(id)}
-                className="hover:text-black dark:hover:text-white transition-colors"
+                key={item.target}
+                onClick={() => scrollToSection(item.target)}
+                className="
+                  px-4 py-2 rounded-full
+                  text-neutral-700 dark:text-neutral-300
+                  transition-all duration-300
+                  hover:bg-white hover:text-black hover:shadow-sm
+                  dark:hover:bg-neutral-800/80 dark:hover:text-white
+                "
               >
-                {id.charAt(0).toUpperCase() + id.slice(1)}
+                {item.label}
               </button>
             ))}
           </nav>
 
-          {/* DESKTOP ACTIONS */}
+          {/* ================= DESKTOP ACTIONS ================= */}
           <div className="hidden lg:flex items-center gap-4">
             <ThemeToggle theme={theme} onToggle={toggleTheme} />
-            <Button className="px-6 py-2 text-sm" onClick={() => scrollToSection("contact")}>
+            <Button className="px-6 py-2 text-sm">
               Let&apos;s Talk
             </Button>
           </div>
 
-          {/* MOBILE ACTIONS (TOGGLE + MENU) */}
+          {/* ================= MOBILE ACTIONS ================= */}
           <div className="lg:hidden flex items-center gap-3">
-            {/* MOBILE THEME TOGGLE (HEADER) */}
             <ThemeToggle theme={theme} onToggle={toggleTheme} />
-
-            {/* MOBILE MENU BUTTON */}
             <button
               onClick={() => setOpen(true)}
               className="text-black dark:text-white"
-              aria-label="Open menu"
             >
               <Menu className="w-6 h-6" />
             </button>
@@ -125,28 +162,34 @@ const Navbar = () => {
             onClick={scrollToTop}
             className="flex items-center gap-2 font-semibold cursor-pointer text-black dark:text-white"
           >
-            <img src="/logo-symbol.png" alt="Company Logo" className="h-7 w-auto" />
+            <img
+              src="/logo-symbol.png"
+              alt="Company Logo"
+              className="h-7 w-auto"
+            />
             Your Logo
           </div>
 
-          <button onClick={() => setOpen(false)} aria-label="Close menu" className="text-black dark:text-white">
+          <button
+            onClick={() => setOpen(false)}
+            className="text-black dark:text-white"
+          >
             <X className="w-6 h-6" />
           </button>
         </div>
 
         {/* MOBILE MENU */}
         <nav className="px-6 py-10 space-y-6 text-sm text-neutral-600 dark:text-neutral-300">
-          {MENU.map((id) => (
+          {MENU.map((item) => (
             <button
-              key={id}
-              onClick={() => scrollToSection(id)}
+              key={item.target}
+              onClick={() => scrollToSection(item.target)}
               className="block w-full text-left hover:text-black dark:hover:text-white transition"
             >
-              {id.charAt(0).toUpperCase() + id.slice(1)}
+              {item.label}
             </button>
           ))}
 
-          {/* MOBILE THEME TOGGLE (DRAWER) */}
           <button
             onClick={toggleTheme}
             className="
@@ -160,7 +203,7 @@ const Navbar = () => {
             Switch Theme
           </button>
 
-          <Button className="w-full mt-6 py-4" onClick={() => scrollToSection("contact")}>
+          <Button className="w-full mt-6 py-4">
             Let&apos;s Talk
           </Button>
         </nav>
@@ -184,16 +227,21 @@ function ThemeToggle({
       onClick={onToggle}
       aria-label="Toggle theme"
       className="
-        relative w-9 h-9 rounded-full
+        w-9 h-9 rounded-full
         flex items-center justify-center
         border border-neutral-300 dark:border-neutral-700
-        bg-white dark:bg-black
+        bg-white/80 dark:bg-black/70
+        backdrop-blur-md
         text-neutral-700 dark:text-neutral-300
-        hover:bg-neutral-200 dark:hover:bg-neutral-800
-        transition-all duration-300
+        hover:bg-neutral-200/70 dark:hover:bg-neutral-800/70
+        transition
       "
     >
-      {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+      {theme === "dark" ? (
+        <Sun className="w-4 h-4" />
+      ) : (
+        <Moon className="w-4 h-4" />
+      )}
     </button>
   );
 }

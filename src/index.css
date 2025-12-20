@@ -1,6 +1,31 @@
 @import "tailwindcss";
 @config "../tailwind.config.ts";
 
+
+/* =========================================================
+   AUTOFILL FIX — LIGHT MODE (PUTIH)
+========================================================= */
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #eef5ff inset !important; /* putih lembut */
+  -webkit-text-fill-color: #000000 !important;
+  caret-color: #000000;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* =========================================================
+   AUTOFILL FIX — DARK MODE (HITAM)
+========================================================= */
+.dark input:-webkit-autofill,
+.dark textarea:-webkit-autofill,
+.dark select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #000000 inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff;
+}
+
+
 /* 
 body {
   font-family: "Quicksand", sans-serif;

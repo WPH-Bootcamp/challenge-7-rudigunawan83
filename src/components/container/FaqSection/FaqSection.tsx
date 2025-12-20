@@ -44,7 +44,7 @@ const FaqSection = () => {
 
   return (
     <section
-      id="faq"
+      id="FAQ"
       className="
         bg-white text-black
         dark:bg-black dark:text-white
@@ -52,6 +52,7 @@ const FaqSection = () => {
         w-full
         py-[80px]
         lg:h-[822px]
+        scroll-mt-[84px]
       "
     >
       {/* ===== MAIN CONTAINER ===== */}
