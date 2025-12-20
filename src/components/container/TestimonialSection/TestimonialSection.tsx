@@ -50,7 +50,7 @@ const START_INDEX = DATA.length;
 
 /* ================= SECTION ================= */
 
-export default function TestimonialSection() {
+const TestimonialSection = () => {
   const [index, setIndex] = useState(START_INDEX);
   const [offset, setOffset] = useState(0);
   const [dragging, setDragging] = useState(false);
@@ -58,13 +58,13 @@ export default function TestimonialSection() {
   const startX = useRef(0);
   const animating = useRef(false);
 
-  /* AUTO SLIDE */
+  /* ================= AUTO SLIDE ================= */
   useEffect(() => {
     const id = setInterval(() => slideTo(index + 1), 5000);
     return () => clearInterval(id);
   }, [index]);
 
-  /* LOOP FIX */
+  /* ================= LOOP FIX ================= */
   useEffect(() => {
     if (index === DATA.length * 2) snapTo(START_INDEX);
     if (index === DATA.length - 1) snapTo(START_INDEX - 1);
@@ -84,6 +84,7 @@ export default function TestimonialSection() {
     setTimeout(() => (animating.current = false), 650);
   };
 
+  /* ================= POINTER ================= */
   const onPointerDown = (e: React.PointerEvent) => {
     startX.current = e.clientX;
     setDragging(true);
@@ -102,106 +103,111 @@ export default function TestimonialSection() {
   };
 
   return (
-  <section
-    id="testimonials"
-    className="
-      bg-black
-      w-full
-      h-[723px]              /* ⬅ FIX HEIGHT */
-      py-[80px]              /* ⬅ TOP & BOTTOM 80 */
-      overflow-visible
-    "
-  >
-    {/* ===== MAIN CONTAINER (1440px) ===== */}
-    <div
+    <section
+      id="testimonials"
       className="
-        max-w-[1440px]
-        mx-auto
-        px-[140px]
-        h-full
-        flex
-        flex-col
-        gap-[80px]            /* ⬅ GAP 80 */
+        w-full
+        py-[80px]
+        lg:h-[723px]
+        bg-white text-black
+        dark:bg-black dark:text-white
+        transition-colors duration-300
+        overflow-visible
       "
     >
-      {/* HEADER */}
-      <div className="text-center">
-        <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
-          What Partners Say About Working With Us
-        </h2>
-        <p className="mt-4 text-neutral-400">
-          Trusted voices. Real experiences. Proven results.
-        </p>
-      </div>
-
-      {/* ===== CARD CONTAINER ===== */}
+      {/* ===== MAIN CONTAINER ===== */}
       <div
         className="
-          relative
-          w-full
-          h-[420px]            /* cukup utk quote + avatar */
-          overflow-visible
-          touch-pan-y
+          max-w-[1440px]
+          mx-auto
+          px-6
+          md:px-12
+          lg:px-[140px]
+          h-full
+          flex
+          flex-col
+          gap-[64px]
+          lg:gap-[80px]
         "
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onPointerLeave={onPointerUp}
       >
+        {/* ================= HEADER ================= */}
+        <div className="text-center max-w-2xl mx-auto">
+          <h2 className="font-display text-3xl md:text-4xl font-bold">
+            What Partners Say About Working With Us
+          </h2>
+          <p className="mt-4 text-neutral-600 dark:text-neutral-400">
+            Trusted voices. Real experiences. Proven results.
+          </p>
+        </div>
+
+        {/* ================= SLIDER ================= */}
         <div
-          className={`flex items-center ${
-            dragging
-              ? ""
-              : "transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)]"
-          }`}
-          style={{
-            transform: `translateX(calc(50% - ${
-              index * (CARD_WIDTH + GAP) + CARD_WIDTH / 2
-            }px + ${offset}px))`,
-            gap: GAP,
-          }}
+          className="
+            relative
+            w-full
+            h-[420px]
+            overflow-visible
+            touch-pan-y
+          "
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerLeave={onPointerUp}
         >
-          {items.map((item, i) => (
-            <TestimonialCard
-              key={`${item.name}-${i}`}
-              item={item}
-              active={i === index}
-            />
-          ))}
+          <div
+            className={`flex items-center ${
+              dragging
+                ? ""
+                : "transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)]"
+            }`}
+            style={{
+              transform: `translateX(calc(50% - ${
+                index * (CARD_WIDTH + GAP) + CARD_WIDTH / 2
+              }px + ${offset}px))`,
+              gap: GAP,
+            }}
+          >
+            {items.map((item, i) => (
+              <TestimonialCard
+                key={`${item.name}-${i}`}
+                item={item}
+                active={i === index}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* ================= BULLETS ================= */}
+        <div className="flex justify-center gap-3">
+          {DATA.map((_, i) => {
+            const real = index % DATA.length;
+            return (
+              <span
+                key={i}
+                className={`h-2 w-2 rounded-full transition-all ${
+                  i === real
+                    ? "bg-orange-500 scale-125"
+                    : "bg-neutral-400 dark:bg-neutral-600"
+                }`}
+              />
+            );
+          })}
         </div>
       </div>
+    </section>
+  );
+};
 
-      {/* BULLETS */}
-      <div className="flex justify-center gap-3">
-        {DATA.map((_, i) => {
-          const real = index % DATA.length;
-          return (
-            <span
-              key={i}
-              className={`h-2 w-2 rounded-full transition-all ${
-                i === real
-                  ? "bg-orange-500 scale-125"
-                  : "bg-neutral-600"
-              }`}
-            />
-          );
-        })}
-      </div>
-    </div>
-  </section>
-);
-
-}
+export default TestimonialSection;
 
 /* ================= CARD ================= */
 
-function TestimonialCard({
-  item,
-  active,
-}: {
+type CardProps = {
   item: Testimonial;
   active: boolean;
-}) {
+};
+
+const TestimonialCard = ({ item, active }: CardProps) => {
   return (
     <div
       className={`shrink-0 transition-all duration-700 ${
@@ -213,8 +219,6 @@ function TestimonialCard({
         className="
           relative
           h-[340px]
-          bg-[#0A0D12]
-          border border-[#181D27]
           rounded-2xl
           px-10
           pt-20
@@ -223,6 +227,10 @@ function TestimonialCard({
           items-center
           gap-6
           overflow-visible
+
+          bg-neutral-100 dark:bg-[#0A0D12]
+          border border-neutral-200 dark:border-[#181D27]
+          transition-colors
         "
       >
         {/* QUOTE ICON */}
@@ -234,13 +242,12 @@ function TestimonialCard({
             -top-[32px]
             left-10
             w-20 h-20
-            z-50
             pointer-events-none
             drop-shadow-[0_16px_40px_rgba(255,115,45,0.6)]
           "
         />
 
-        {/* STAR RATING */}
+        {/* STAR */}
         <div className="flex gap-1">
           {Array.from({ length: item.rating }).map((_, i) => (
             <img
@@ -253,32 +260,31 @@ function TestimonialCard({
         </div>
 
         {/* QUOTE */}
-        <p className="font-quicksand font-semibold text-lg leading-relaxed text-center text-[#FDFDFD] max-w-[500px]">
+        <p className="font-quicksand font-semibold text-lg leading-relaxed text-center max-w-[500px] text-neutral-800 dark:text-[#FDFDFD]">
           “{item.quote}”
         </p>
 
         {/* AUTHOR */}
         <div className="text-center">
-          <p className="font-semibold text-white">{item.name}</p>
+          <p className="font-semibold">{item.name}</p>
           <p className="text-sm text-orange-500">{item.role}</p>
         </div>
 
         {/* AVATAR */}
-        <div className="absolute -bottom-[36px] left-1/2 -translate-x-1/2 z-40">
+        <div className="absolute -bottom-[36px] left-1/2 -translate-x-1/2">
           <img
             src={item.avatar}
             alt={item.name}
             className="
               w-16 h-16
               rounded-full
-              border-2 border-[#181D27]
-              bg-black
               object-cover
+              bg-white dark:bg-black
+              border-2 border-neutral-200 dark:border-[#181D27]
             "
           />
         </div>
       </div>
     </div>
   );
-}
- 
+};

@@ -12,9 +12,9 @@ import IndustrySection from "./components/container/IndustrySection";
 import FaqSection from "./components/container/FaqSection";
 import ScrollToTop from "./components/ui/ScrollToTop/ScrollToTop";
 
-function App() {
+export default function App() {
   return (
-    <div className="bg-black">
+    <div className="min-h-screen w-full bg-white dark:bg-black">
       <Navbar />
       <Hero />
       <TrustedBy />
@@ -28,8 +28,8 @@ function App() {
       <ContactSection />
       <Footer />
       <ScrollToTop />
+      <main className="min-h-screen" />
     </div>
   );
 }
 
-export default App;

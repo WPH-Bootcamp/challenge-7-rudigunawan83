@@ -35,94 +35,97 @@ const IndustrySection = () => {
   const [active, setActive] = useState<Industry>(industries[0]);
 
   return (
-    <section id="industry" className="bg-black text-white">
-      {/* ===== OUTER WRAPPER ===== */}
+    <section
+      id="industry"
+      className="
+        bg-white text-black
+        dark:bg-black dark:text-white
+        transition-colors duration-300
+      "
+    >
+      {/* ================= OUTER WRAPPER ================= */}
       <div
         className="
           max-w-[1440px]
           mx-auto
-          px-4
+          px-6
+          md:px-12
           lg:px-[140px]
           py-[80px]
           flex flex-col
           gap-[64px]
         "
       >
-        {/* ===== HEADER ===== */}
+        {/* ================= HEADER ================= */}
         <div className="max-w-2xl">
           <h2 className="font-display text-3xl md:text-4xl font-bold">
             Built for Your Industry
           </h2>
-          <p className="mt-4 text-neutral-400">
+          <p className="mt-4 text-neutral-600 dark:text-neutral-400">
             We've helped companies across industries launch smarter, faster,
             and more securely.
           </p>
         </div>
 
-        {/* ===== CONTENT CONTAINER ===== */}
+        {/* ================= CONTENT ================= */}
         <div
           className="
             w-full
             max-w-[1160px]
             mx-auto
             grid
+            grid-cols-1
             lg:grid-cols-[320px_1fr]
-            gap-[64px]
+            gap-[48px]
+            lg:gap-[64px]
             items-start
           "
         >
-          {/* LEFT — INDUSTRY TABS */}
-          <div className="flex flex-col">
-            <ul className="space-y-4">
-              {industries.map((industry) => {
-                const isActive = active.key === industry.key;
+          {/* ================= LEFT — TABS ================= */}
+          <ul className="space-y-4">
+            {industries.map((industry) => {
+              const isActive = active.key === industry.key;
 
-                return (
-                  <li
-                    key={industry.key}
-                    onClick={() => setActive(industry)}
-                    className={`
-                      cursor-pointer
-                      pl-6
-                      border-l-2
-                      transition-all
-                      duration-300
-                      ${
-                        isActive
-                          ? "border-[#FF6C37] text-white"
-                          : "border-neutral-700 text-neutral-500 hover:text-white"
-                      }
-                    `}
-                  >
-                    <span className="font-semibold text-lg">
-                      {industry.title}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+              return (
+                <li
+                  key={industry.key}
+                  onClick={() => setActive(industry)}
+                  className={`
+                    cursor-pointer
+                    pl-6
+                    border-l-2
+                    transition-all duration-300
+                    ${
+                      isActive
+                        ? "border-[#FF6C37] text-black dark:text-white"
+                        : "border-neutral-300 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white"
+                    }
+                  `}
+                >
+                  <span className="font-semibold text-lg">
+                    {industry.title}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
 
-          {/* ================= RIGHT CONTAINER ================= */}
+          {/* ================= RIGHT CONTENT ================= */}
           <div
             className="
               w-full
               max-w-[840px]
-              h-auto
-              lg:h-[435px]
-              flex
-              flex-col
+              flex flex-col
               gap-[20px]
-              opacity-100
             "
           >
             {/* DESCRIPTION */}
-            <p className="text-neutral-400 leading-relaxed max-w-[720px]">
+            <p className="leading-relaxed max-w-[720px] text-neutral-700 dark:text-neutral-400">
               {active.description}
             </p>
 
             {/* IMAGE */}
-            <div className="relative flex-1">
+            <div className="relative w-full h-[240px] sm:h-[320px] lg:h-[435px]">
               <img
                 src={active.image}
                 alt={active.title}
@@ -135,7 +138,6 @@ const IndustrySection = () => {
               />
             </div>
           </div>
-          {/* =================================================== */}
         </div>
       </div>
     </section>

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { ChevronUp } from "lucide-react";
 
 type Step = {
@@ -55,32 +55,27 @@ const STEPS: Step[] = [
 
 const ProcessSection = () => {
   const [active, setActive] = useState<number | null>(null);
-  const itemRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
   const toggle = (id: number) => {
-    const next = active === id ? null : id;
-    setActive(next);
-
-    setTimeout(() => {
-      if (next && itemRefs.current[next]) {
-        itemRefs.current[next]?.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-      }
-    }, 60);
+    setActive((prev) => (prev === id ? null : id));
   };
 
   return (
-    <section className="bg-black text-white">
-      {/* ===== MAIN LAYOUT WRAPPER ===== */}
+    <section
+      className="
+        bg-white text-black
+        dark:bg-black dark:text-white
+        transition-colors duration-300
+      "
+    >
+      {/* ===== WRAPPER ===== */}
       <div
         className="
           max-w-[1440px]
           mx-auto
-          pt-20 pb-20
           px-6
           lg:px-[140px]
+          py-[80px]
         "
       >
         {/* HEADER */}
@@ -88,53 +83,38 @@ const ProcessSection = () => {
           <h2 className="font-display text-3xl md:text-4xl font-bold">
             Our Process
           </h2>
-          <p className="mt-4 text-sm text-neutral-400 max-w-md mx-auto">
+          <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400 max-w-md mx-auto">
             Clear steps. Smart execution. Results you can count on.
           </p>
         </div>
 
         {/* ================= MOBILE ================= */}
         <div className="lg:hidden relative space-y-6 max-w-md mx-auto">
-          <div className="absolute left-[24px] top-[24px] bottom-[24px] w-px bg-neutral-800" />
+          <div className="absolute left-[24px] top-[24px] bottom-[24px] w-px bg-neutral-300 dark:bg-neutral-800" />
 
           {STEPS.map((step) => {
             const isOpen = active === step.id;
 
             return (
-              <div
-                key={step.id}
-                ref={(el) => {
-                  itemRefs.current[step.id] = el;
-                }}
-                className="relative flex gap-4"
-              >
-                {/* number */}
+              <div key={step.id} className="relative flex gap-4">
+                {/* NUMBER */}
                 <div className="relative z-10">
-                  <div
-                    className="
-                      w-12 h-12
-                      rounded-full
-                      bg-[#FF623E]
-                      text-black
-                      flex items-center justify-center
-                      text-sm
-                      font-semibold
-                    "
-                  >
+                  <div className="w-12 h-12 rounded-full bg-[#FF623E] text-black flex items-center justify-center text-sm font-semibold">
                     {step.id}
                   </div>
                 </div>
-                {/* card */}
+
+                {/* CARD */}
                 <button
                   onClick={() => toggle(step.id)}
                   className="
                     flex-1
-                    bg-neutral-900
                     rounded-2xl
                     px-5 py-4
                     text-left
                     transition
-                    hover:bg-neutral-800
+                    bg-neutral-100 dark:bg-[#0A0D12]
+                    hover:bg-neutral-200 dark:hover:bg-neutral-800
                   "
                 >
                   <div className="flex justify-between gap-4">
@@ -142,22 +122,25 @@ const ProcessSection = () => {
                       <h3 className="text-sm font-semibold">
                         {step.title}
                       </h3>
-                      <p className="mt-1 text-xs text-neutral-400">
+                      <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
                         {step.description}
                       </p>
                     </div>
+
                     <ChevronUp
-                      className={`w-4 h-4 text-neutral-400 transition-transform ${isOpen ? "rotate-180" : ""
-                        }`}
+                      className={`w-4 h-4 transition-transform ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
                     />
                   </div>
 
                   <div
-                    className={`grid transition-all duration-300 ${isOpen ? "grid-rows-[1fr] mt-4" : "grid-rows-[0fr]"
-                      }`}
+                    className={`grid transition-all duration-300 ${
+                      isOpen ? "grid-rows-[1fr] mt-4" : "grid-rows-[0fr]"
+                    }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="text-xs text-neutral-300">
+                      <p className="text-xs text-neutral-600 dark:text-neutral-300">
                         {step.details}
                       </p>
                     </div>
@@ -170,8 +153,7 @@ const ProcessSection = () => {
 
         {/* ================= DESKTOP ================= */}
         <div className="hidden lg:block relative">
-          {/* FIXED CENTER LINE (PRECISE) */}
-          <div className="absolute left-1/2 top-[44px] bottom-[44px] w-px bg-neutral-800" />
+          <div className="absolute left-1/2 top-[44px] bottom-[44px] w-px bg-neutral-300 dark:bg-neutral-800" />
 
           <div className="space-y-16">
             {STEPS.map((step, index) => {
@@ -179,13 +161,7 @@ const ProcessSection = () => {
               const isOpen = active === step.id;
 
               return (
-                <div
-                  key={step.id}
-                  ref={(el) => {
-                    itemRefs.current[step.id] = el;
-                  }}
-                  className="relative grid grid-cols-2"
-                >
+                <div key={step.id} className="relative grid grid-cols-2">
                   {isLeft && (
                     <div className="pr-24 flex justify-end">
                       <AccordionCard
@@ -208,17 +184,7 @@ const ProcessSection = () => {
 
                   {/* NUMBER */}
                   <div className="absolute left-1/2 -translate-x-1/2 top-6 z-10">
-                    <div
-                      className="
-                w-10 h-10
-                rounded-full
-                bg-[#FF623E]
-                text-black
-                flex items-center justify-center
-                text-sm
-                font-semibold
-              "
-                    >
+                    <div className="w-10 h-10 rounded-full bg-[#FF623E] text-black flex items-center justify-center text-sm font-semibold">
                       {step.id}
                     </div>
                   </div>
@@ -227,7 +193,6 @@ const ProcessSection = () => {
             })}
           </div>
         </div>
-
       </div>
     </section>
   );
@@ -249,39 +214,37 @@ const AccordionCard = ({ step, isOpen, onClick }: CardProps) => {
       onClick={() => onClick(step.id)}
       className="
         w-full max-w-[532px]
-        bg-[#0A0D12]
-        border border-[#181D27]
-        rounded-2xl
-        p-6
-        text-left
+        rounded-2xl p-6 text-left
         transition
-        hover:border-neutral-700
+        bg-neutral-100 dark:bg-[#0A0D12]
+        border border-neutral-200 dark:border-[#181D27]
+        hover:border-neutral-400 dark:hover:border-neutral-700
       "
     >
-      {/* HEADER ROW */}
       <div className="flex items-start justify-between gap-6">
         <div>
-          <h3 className="text-base font-semibold text-white">
+          <h3 className="text-base font-semibold">
             {step.title}
           </h3>
-          <p className="mt-1 text-sm text-neutral-400">
+          <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
             {step.description}
           </p>
         </div>
 
         <ChevronUp
-          className={`w-5 h-5 text-neutral-400 transition-transform ${isOpen ? "rotate-180" : ""
-            }`}
+          className={`w-5 h-5 transition-transform ${
+            isOpen ? "rotate-180" : ""
+          }`}
         />
       </div>
 
-      {/* CONTENT */}
       <div
-        className={`grid transition-all duration-300 ${isOpen ? "grid-rows-[1fr] mt-4" : "grid-rows-[0fr]"
-          }`}
+        className={`grid transition-all duration-300 ${
+          isOpen ? "grid-rows-[1fr] mt-4" : "grid-rows-[0fr]"
+        }`}
       >
         <div className="overflow-hidden">
-          <p className="text-sm text-neutral-300">
+          <p className="text-sm text-neutral-600 dark:text-neutral-300">
             {step.details}
           </p>
         </div>

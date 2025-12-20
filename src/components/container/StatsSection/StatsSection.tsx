@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
+/* ================= TYPES ================= */
+
 type StatItem = {
   value: number;
   suffix?: string;
   label: string;
 };
+
+/* ================= DATA ================= */
 
 const stats: StatItem[] = [
   { value: 50, suffix: "+", label: "Projects Delivered" },
@@ -12,41 +16,50 @@ const stats: StatItem[] = [
   { value: 10, suffix: "+", label: "Industry Awards Won" },
   { value: 100, suffix: "%", label: "Client Satisfaction Rate" },
 ];
+
+/* ================= SECTION ================= */
+
 const StatsSection = () => {
   return (
-    <section className="bg-black">
+    <section
+      className="
+        bg-white text-black
+        dark:bg-black dark:text-white
+        transition-colors duration-300
+      "
+    >
       {/* ===== MAIN CONTAINER ===== */}
       <div
         className="
           max-w-[1440px]
           mx-auto
-          py-20
-          px-4
-          flex flex-col
-          gap-6
-          text-center
-
+          py-[80px]
+          px-6
+          md:px-12
           lg:px-[140px]
-          lg:gap-16
+          flex flex-col
+          gap-[48px]
+          lg:gap-[64px]
+          text-center
         "
       >
-        {/* TITLE */}
-        <div>
-          <h2 className="font-display text-2xl md:text-4xl font-bold text-white">
+        {/* ================= HEADER ================= */}
+        <div className="max-w-3xl mx-auto">
+          <h2 className="font-display text-2xl md:text-4xl font-bold">
             End-to-End IT Solutions That Drive Results
           </h2>
-          <p className="mt-4 text-neutral-400 max-w-2xl mx-auto text-sm md:text-base">
+          <p className="mt-4 text-neutral-600 dark:text-neutral-400 text-sm md:text-base">
             From strategy to execution, we deliver solutions that grow your business.
           </p>
         </div>
 
-        {/* STATS */}
+        {/* ================= STATS GRID ================= */}
         <div
           className="
             grid grid-cols-2
             gap-6
             justify-items-center
-
+            sm:gap-8
             lg:grid-cols-4
             lg:gap-10
           "
@@ -63,22 +76,26 @@ const StatsSection = () => {
 export default StatsSection;
 
 /* ================= CARD ================= */
+
+type StatCardProps = {
+  value: number;
+  suffix?: string;
+  label: string;
+  index: number;
+};
+
 const StatCard = ({
   value,
   suffix = "",
   label,
-  index = 0,
-}: {
-  value: number;
-  suffix?: string;
-  label: string;
-  index?: number;
-}) => {
+  index,
+}: StatCardProps) => {
   const [count, setCount] = useState(0);
   const [pulse, setPulse] = useState(false);
+
   const ref = useRef<HTMLDivElement | null>(null);
-  const intervalRef = useRef<number | null>(null);
   const rafRef = useRef<number | null>(null);
+  const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -89,46 +106,47 @@ const StatCard = ({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) startLoop(prefersReduced);
-        else stopLoop();
+        if (entry.isIntersecting) start(prefersReduced);
+        else stop();
       },
       { threshold: 0.4 }
     );
 
     observer.observe(el);
+
     return () => {
       observer.disconnect();
-      stopLoop();
+      stop();
     };
   }, []);
 
-  const startLoop = (reduced: boolean) => {
+  const start = (reduced: boolean) => {
     if (intervalRef.current !== null) return;
 
     const isMobile = window.innerWidth < 768;
-    const stagger = (isMobile ? 80 : 120) * index;
+    const delay = (isMobile ? 80 : 120) * index;
 
     setTimeout(() => {
-      runAnimation(reduced);
+      animate(reduced);
       intervalRef.current = window.setInterval(
-        () => runAnimation(reduced),
+        () => animate(reduced),
         5000
       );
-    }, stagger);
+    }, delay);
   };
 
-  const stopLoop = () => {
-    if (intervalRef.current !== null) {
+  const stop = () => {
+    if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
-    if (rafRef.current !== null) {
+    if (rafRef.current) {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     }
   };
 
-  const runAnimation = (reduced: boolean) => {
+  const animate = (reduced: boolean) => {
     setPulse(false);
     setCount(0);
 
@@ -139,14 +157,14 @@ const StatCard = ({
     }
 
     const duration = 1100;
-    const start = performance.now();
+    const startTime = performance.now();
 
     const step = (now: number) => {
-      const p = Math.min((now - start) / duration, 1);
-      const eased = easeOutCubic(p);
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = easeOutCubic(progress);
       setCount(Math.floor(eased * value));
 
-      if (p < 1) {
+      if (progress < 1) {
         rafRef.current = requestAnimationFrame(step);
       } else {
         setPulse(true);
@@ -162,18 +180,17 @@ const StatCard = ({
       ref={ref}
       className={`
         relative
-        flex flex-col items-center justify-center text-center
-        gap-[6px] p-4
-
-        w-[172.5px] h-[172.5px]
+        flex flex-col items-center justify-center
+        text-center
+        gap-[6px]
+        w-[172px] h-[172px]
+        lg:w-[275px] lg:h-[275px]
         rounded-full
-        bg-[#0A0D12]
-        border border-[#181D27]
-
-        transition-transform
+        transition-transform duration-300
         ${pulse ? "scale-[1.04]" : "scale-100"}
 
-        lg:w-[275px] lg:h-[275px] lg:gap-2
+        bg-neutral-100 dark:bg-[#0A0D12]
+        border border-neutral-200 dark:border-[#181D27]
       `}
     >
       {/* VALUE */}
@@ -183,12 +200,13 @@ const StatCard = ({
       </span>
 
       {/* LABEL */}
-      <span className="font-quicksand text-xs lg:text-sm font-medium text-neutral-400 px-2 lg:px-6">
+      <span className="font-quicksand text-xs lg:text-sm font-medium text-neutral-600 dark:text-neutral-400 px-2 lg:px-6">
         {label}
       </span>
     </div>
   );
 };
 
-/* easing */
+/* ================= UTILS ================= */
+
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);

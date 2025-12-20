@@ -24,12 +24,20 @@ const portfolios: PortfolioItem[] = [
 
 const PortfolioSection = () => {
   return (
-    <section id="portfolio" className="bg-black text-white">
+    <section
+      id="portfolio"
+      className="
+        bg-white text-black
+        dark:bg-black dark:text-white
+        transition-colors duration-300
+      "
+    >
       <div
         className="
           max-w-[1440px]
           mx-auto
-          px-4
+          px-6
+          md:px-12
           lg:px-[140px]
           py-[80px]
           flex
@@ -37,19 +45,27 @@ const PortfolioSection = () => {
           gap-[64px]
         "
       >
-        {/* HEADER */}
+        {/* ================= HEADER ================= */}
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="font-display text-3xl md:text-4xl font-bold">
             From Vision to Launch! Projects We’re Proud Of
           </h2>
-          <p className="mt-4 text-neutral-400">
+          <p className="mt-4 text-neutral-600 dark:text-neutral-400">
             Take a closer look at our recent work powering startups,
             enterprises, and everything in between.
           </p>
         </div>
 
-        {/* GRID */}
-        <div className="grid gap-16 sm:grid-cols-2 lg:grid-cols-3 justify-items-center">
+        {/* ================= GRID ================= */}
+        <div
+          className="
+            grid
+            gap-16
+            sm:grid-cols-2
+            lg:grid-cols-3
+            justify-items-center
+          "
+        >
           {portfolios.map((item) => (
             <PortfolioCard key={item.title} {...item} />
           ))}
@@ -67,17 +83,12 @@ const PortfolioCard = ({
   tag,
   title,
   images,
-}: {
-  tag: string;
-  title: string;
-  images: string[];
-}) => {
+}: PortfolioItem) => {
   return (
     <div
       className="
-        w-[373px]
-        h-[449px]
-        max-w-full
+        w-full
+        max-w-[373px]
         flex
         flex-col
         gap-[12px]
@@ -85,12 +96,13 @@ const PortfolioCard = ({
         group
       "
     >
-      {/* IMAGE (373 x 373) */}
+      {/* ================= IMAGE ================= */}
       <div
         className="
           relative
-          w-[373px]
-          h-[373px]
+          w-full
+          aspect-square
+          max-w-[373px]
           overflow-hidden
           rounded-[16px]
           transition
@@ -130,29 +142,23 @@ const PortfolioCard = ({
         />
       </div>
 
-      {/* TEXT */}
+      {/* ================= TEXT ================= */}
       <div className="flex flex-col gap-[4px] items-center">
         <p
           className="
-                    w-[373px]
-                    h-[30px]
-                    font-quicksand
-                    font-medium
-                    text-md
-                    leading-md
-                    tracking-normal
-                    text-[#FF623E]
-                    text-center
-                  "
-                  >
+            font-quicksand
+            font-medium
+            text-md
+            text-[#FF623E]
+          "
+        >
           {tag}
         </p>
 
-        <h3 className="font-semibold text-lg text-white text-center">
+        <h3 className="font-semibold text-lg">
           {title}
         </h3>
       </div>
-
     </div>
   );
 };

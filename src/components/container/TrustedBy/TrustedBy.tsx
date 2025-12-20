@@ -12,8 +12,16 @@ const logos = [
 
 const TrustedBy = () => {
   return (
-    <section className="bg-black overflow-hidden">
-      {/* ===== INLINE CSS (ANTI TAILWIND ISSUE) ===== */}
+    <section
+      className="
+        w-full
+        bg-white text-black
+        dark:bg-black dark:text-white
+        transition-colors duration-300
+        overflow-hidden
+      "
+    >
+      {/* ===== INLINE KEYFRAMES ===== */}
       <style>{`
         @keyframes marquee {
           0% { transform: translateX(0); }
@@ -32,46 +40,79 @@ const TrustedBy = () => {
           max-w-[1440px]
           h-[236px]
           mx-auto
-          px-4 sm:px-6 lg:px-[140px]
+          px-6
+          md:px-12
+          lg:px-[140px]
           flex flex-col
           justify-center
           gap-8
         "
       >
         {/* TITLE */}
-       <p
-            className="
-                font-display
-                font-bold
-                text-[20px]
-                leading-[28px]
-                tracking-normal
-                text-center
-                text-[#FDFDFD]
-            "
-            >
-            Trusted by Global Innovators &amp; Leading Brands
-            </p>
-
+        <p
+          className="
+            font-display
+            font-bold
+            text-[20px]
+            leading-[28px]
+            text-center
+            text-neutral-800
+            dark:text-[#FDFDFD]
+            transition-colors
+          "
+        >
+          Trusted by Global Innovators &amp; Leading Brands
+        </p>
 
         {/* MARQUEE */}
         <div className="relative overflow-hidden">
-          {/* FADE EDGES */}
-          <div className="pointer-events-none absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-black to-transparent z-10" />
-          <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-black to-transparent z-10" />
+          {/* LEFT FADE */}
+          <div
+            className="
+              pointer-events-none
+              absolute
+              left-0 top-0
+              h-full w-24
+              bg-gradient-to-r
+              from-white
+              dark:from-black
+              to-transparent
+              z-10
+              transition-colors
+            "
+          />
+
+          {/* RIGHT FADE */}
+          <div
+            className="
+              pointer-events-none
+              absolute
+              right-0 top-0
+              h-full w-24
+              bg-gradient-to-l
+              from-white
+              dark:from-black
+              to-transparent
+              z-10
+              transition-colors
+            "
+          />
 
           {/* TRACK */}
           <div className="marquee-track">
-            {[...logos, ...logos].map((logo, i) => (
-              <div key={i} className="flex items-center px-10">
+            {[...logos, ...logos].map((brand, i) => (
+              <div
+                key={`${brand.name}-${i}`}
+                className="flex items-center px-8 md:px-10"
+              >
                 <img
-                  src={logo.logo}
-                  alt={logo.name}
+                  src={brand.logo}
+                  alt={brand.name}
                   className="
                     h-6 md:h-7
                     opacity-60
                     grayscale
-                    transition
+                    transition-all duration-300
                     hover:opacity-100
                     hover:grayscale-0
                   "

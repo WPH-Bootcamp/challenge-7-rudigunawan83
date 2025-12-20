@@ -52,10 +52,12 @@ export default function ContactSection() {
     <section
       id="contact"
       className="
-        bg-black
+        bg-white text-black
+        dark:bg-black dark:text-white
+        transition-colors duration-300
         w-full
-        h-[956px]
         py-[80px]
+        lg:h-[956px]
       "
     >
       {/* ===== MAIN CONTAINER ===== */}
@@ -63,8 +65,9 @@ export default function ContactSection() {
         className="
           max-w-[1440px]
           mx-auto
-          px-[140px]
-          h-full
+          px-6
+          md:px-12
+          lg:px-[140px]
           flex
           flex-col
           items-center
@@ -73,10 +76,10 @@ export default function ContactSection() {
       >
         {/* ================= HEADER ================= */}
         <div className="text-center max-w-[720px]">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
+          <h2 className="font-display text-3xl md:text-4xl font-bold">
             Ready to Start? Let’s Talk.
           </h2>
-          <p className="mt-4 text-neutral-400">
+          <p className="mt-4 text-neutral-600 dark:text-neutral-400">
             Tell us what you need, and we’ll get back to you soon.
           </p>
         </div>
@@ -85,7 +88,8 @@ export default function ContactSection() {
         <form
           onSubmit={handleSubmit}
           className="
-            w-[720px]
+            w-full
+            max-w-[720px]
             flex
             flex-col
             gap-[48px]
@@ -114,11 +118,19 @@ export default function ContactSection() {
 
           {/* ================= SERVICES ================= */}
           <div>
-            <label className="block text-sm text-neutral-300 mb-4">
+            <label className="block text-sm mb-4 text-neutral-700 dark:text-neutral-300">
               Services
             </label>
 
-            <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+            <div
+              className="
+                grid
+                grid-cols-1
+                sm:grid-cols-2
+                gap-x-8
+                gap-y-4
+              "
+            >
               {Object.keys(form.services).map((key) => (
                 <Checkbox
                   key={key}
@@ -142,9 +154,7 @@ export default function ContactSection() {
           <button
             type="submit"
             className="
-              w-full
-              h-14
-              rounded-full
+              w-full h-14 rounded-full
               bg-gradient-to-r from-orange-500 to-orange-600
               text-white font-medium
               shadow-[0_10px_40px_rgba(255,115,45,0.35)]
@@ -181,60 +191,73 @@ function Modal({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4">
       <div onClick={onClose} className="absolute inset-0" />
-      <div className="relative z-10">{children}</div>
+      <div className="relative z-10 w-full max-w-[380px]">{children}</div>
     </div>
   );
 }
 
 /* ================= POPUPS ================= */
 
-function PopupSuccess({ onClose }: { onClose: () => void }) {
+function PopupBase({
+  icon,
+  title,
+  description,
+  button,
+  onClose,
+}: {
+  icon: string;
+  title: string;
+  description: string;
+  button: string;
+  onClose: () => void;
+}) {
   return (
-    <div className="w-[380px] bg-neutral-900 rounded-2xl p-8 text-center border border-neutral-800">
-      <img
-        src="/icons/message-ok.png"
-        alt="Success"
-        className="mx-auto mb-6 w-20"
-      />
-      <h3 className="text-white text-lg font-semibold">
-        Message Received!
-      </h3>
-      <p className="text-neutral-400 text-sm mt-2">
-        Thanks for reaching out — we’ll get back to you soon.
+    <div
+      className="
+        w-full rounded-2xl p-8 text-center
+        bg-white dark:bg-[#0A0D12]
+        border border-neutral-200 dark:border-[#181D27]
+        transition-colors
+      "
+    >
+      <img src={icon} alt={title} className="mx-auto mb-6 w-20" />
+      <h3 className="text-lg font-semibold">{title}</h3>
+      <p className="text-sm mt-2 text-neutral-600 dark:text-neutral-400">
+        {description}
       </p>
       <button
         onClick={onClose}
-        className="mt-6 w-full h-12 rounded-full bg-orange-500 text-white"
+        className="mt-6 w-full h-12 rounded-full bg-orange-500 text-white hover:brightness-110 transition"
       >
-        Back to Home
+        {button}
       </button>
     </div>
   );
 }
 
+function PopupSuccess({ onClose }: { onClose: () => void }) {
+  return (
+    <PopupBase
+      icon="/icons/message-ok.png"
+      title="Message Received!"
+      description="Thanks for reaching out — we’ll get back to you soon."
+      button="Back to Home"
+      onClose={onClose}
+    />
+  );
+}
+
 function PopupError({ onClose }: { onClose: () => void }) {
   return (
-    <div className="w-[380px] bg-neutral-900 rounded-2xl p-8 text-center border border-neutral-800">
-      <img
-        src="/icons/message-error.png"
-        alt="Error"
-        className="mx-auto mb-6 w-20"
-      />
-      <h3 className="text-white text-lg font-semibold">
-        Oops! Something went wrong.
-      </h3>
-      <p className="text-neutral-400 text-sm mt-2">
-        Please fill all fields correctly and try again.
-      </p>
-      <button
-        onClick={onClose}
-        className="mt-6 w-full h-12 rounded-full bg-orange-500 text-white"
-      >
-        Try Again
-      </button>
-    </div>
+    <PopupBase
+      icon="/icons/message-error.png"
+      title="Oops! Something went wrong."
+      description="Please fill all fields correctly and try again."
+      button="Try Again"
+      onClose={onClose}
+    />
   );
 }
 
@@ -253,7 +276,7 @@ function Input({
 }) {
   return (
     <div>
-      <label className="block text-sm text-neutral-300 mb-2">
+      <label className="block text-sm mb-2 text-neutral-700 dark:text-neutral-300">
         {label}
       </label>
       <input
@@ -261,11 +284,13 @@ function Input({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         className="
-          w-full h-12 rounded-xl
-          bg-neutral-800 border border-neutral-800
-          px-4 text-white
-          placeholder:text-neutral-500
+          w-full h-12 rounded-xl px-4
+          bg-white dark:bg-neutral-900
+          border border-neutral-300 dark:border-neutral-800
+          text-black dark:text-white
+          placeholder:text-neutral-400
           focus:outline-none focus:border-orange-500
+          transition-colors
         "
       />
     </div>
@@ -285,7 +310,7 @@ function Textarea({
 }) {
   return (
     <div>
-      <label className="block text-sm text-neutral-300 mb-2">
+      <label className="block text-sm mb-2 text-neutral-700 dark:text-neutral-300">
         {label}
       </label>
       <textarea
@@ -294,12 +319,13 @@ function Textarea({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         className="
-          w-full rounded-xl
-          bg-neutral-900 border border-neutral-800
-          px-4 py-3 text-white
-          placeholder:text-neutral-500
+          w-full rounded-xl px-4 py-3 resize-none
+          bg-white dark:bg-neutral-900
+          border border-neutral-300 dark:border-neutral-800
+          text-black dark:text-white
+          placeholder:text-neutral-400
           focus:outline-none focus:border-orange-500
-          resize-none
+          transition-colors
         "
       />
     </div>
@@ -323,19 +349,20 @@ function Checkbox({
           checked={checked}
           onChange={(e) => onChange(e.target.checked)}
           className="
-            peer appearance-none
-            w-4 h-4 rounded
-            border border-neutral-600
-            bg-neutral-800
-            checked:bg-orange-500
-            checked:border-orange-500
+            peer appearance-none w-4 h-4 rounded
+            border border-neutral-400 dark:border-neutral-600
+            bg-white dark:bg-neutral-900
+            checked:bg-orange-500 checked:border-orange-500
+            transition
           "
         />
         <span className="absolute inset-0 flex items-center justify-center text-white text-[10px] font-bold opacity-0 peer-checked:opacity-100">
           ✓
         </span>
       </span>
-      <span className="text-sm text-neutral-300">{label}</span>
+      <span className="text-sm text-neutral-700 dark:text-neutral-300">
+        {label}
+      </span>
     </label>
   );
 }

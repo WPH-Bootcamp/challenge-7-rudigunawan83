@@ -1,11 +1,12 @@
 @import "tailwindcss";
+@config "../tailwind.config.ts";
 
+/* 
 body {
   font-family: "Quicksand", sans-serif;
 }
-
 /* ===== SEAMLESS MARQUEE NO GAP ===== */
-
+/* 
 .marquee-track {
   display: flex;
   width: max-content;
@@ -30,4 +31,5 @@ body {
     opacity: 1;
     transform: scale(1);
   }
-}
+} 
+ */ 

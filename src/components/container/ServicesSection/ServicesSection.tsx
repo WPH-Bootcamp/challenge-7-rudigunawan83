@@ -54,31 +54,46 @@ const services: Service[] = [
 
 const ServicesSection = () => {
   return (
-    <section id="services" className="bg-black">
-      {/* ===== MAIN LAYOUT WRAPPER (DESIGN-GRADE) ===== */}
+    <section
+      id="services"
+      className="
+        bg-white text-black
+        dark:bg-black dark:text-white
+        transition-colors duration-300
+      "
+    >
+      {/* ===== WRAPPER ===== */}
       <div
         className="
           max-w-[1440px]
           mx-auto
-          py-20
+          py-[80px]
           px-6
+          md:px-12
           lg:px-[140px]
           flex flex-col
-          gap-16
+          gap-[64px]
         "
       >
-        {/* HEADER */}
-        <div className="text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
+        {/* ================= HEADER ================= */}
+        <div className="text-center max-w-3xl mx-auto">
+          <h2 className="font-display text-3xl md:text-4xl font-bold">
             Smart IT Solutions That Grow With You
           </h2>
-          <p className="mt-4 text-neutral-400 max-w-2xl mx-auto">
+          <p className="mt-4 text-neutral-600 dark:text-neutral-400">
             Tailored tech to boost efficiency, security, and results.
           </p>
         </div>
 
-        {/* GRID */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {/* ================= GRID ================= */}
+        <div
+          className="
+            grid
+            gap-8
+            sm:grid-cols-2
+            lg:grid-cols-3
+          "
+        >
           {services.map((service) => (
             <ServiceCard key={service.title} {...service} />
           ))}
@@ -106,13 +121,14 @@ const ServiceCard = ({
       className="
         relative
         rounded-2xl
-        bg-neutral-900
         p-6 pt-10
-        border border-neutral-800
-        transition
+        transition-all duration-300
+        bg-neutral-100 dark:bg-[#0A0D12]
+        border border-neutral-200 dark:border-[#181D27]
         hover:-translate-y-1
-        hover:border-neutral-700
-        hover:shadow-[0_0_30px_rgba(255,115,45,0.08)]
+        hover:border-neutral-400 dark:hover:border-neutral-700
+        hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]
+        dark:hover:shadow-[0_0_30px_rgba(255,115,45,0.08)]
       "
     >
       {/* ICON FLOATING */}
@@ -124,15 +140,15 @@ const ServiceCard = ({
           -top-4
           left-6
           h-8 w-8
-          drop-shadow-[0_6px_14px_rgba(0,0,0,0.6)]
+          drop-shadow-[0_6px_14px_rgba(0,0,0,0.35)]
         "
       />
 
       {/* CONTENT */}
-      <h3 className="text-white font-semibold text-lg">
+      <h3 className="font-semibold text-lg">
         {title}
       </h3>
-      <p className="mt-2 text-sm text-neutral-400 leading-relaxed">
+      <p className="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
         {description}
       </p>
     </div>
