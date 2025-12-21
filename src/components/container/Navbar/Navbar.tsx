@@ -6,7 +6,7 @@ const NAV_OFFSET = 84;
 type Theme = "light" | "dark";
 
 const MENU = [
-  { label: "About", target: "about" },
+  { label: "About", target: "hero" },
   { label: "Service", target: "service" },
   { label: "Projects", target: "projects" },
   { label: "Testimonials", target: "testimonials" },
@@ -73,37 +73,36 @@ const Navbar = () => {
             scrolled
               ? `
                 backdrop-blur-xl
-                bg-white/60 dark:bg-black/60
-                border-b border-white/30 dark:border-white/10
+                bg-white/70 dark:bg-black/70
+                border-b border-black/10 dark:border-white/10
                 shadow-[0_8px_30px_rgba(0,0,0,0.08)]
               `
               : `
                 backdrop-blur-xl
-                bg-white/40 dark:bg-black/40
-                border-b border-white/20 dark:border-white/10
+                bg-white/50 dark:bg-black/50
+                border-b border-black/5 dark:border-white/10
               `
           }
         `}
       >
-        <div
-          className="
-            max-w-[1440px]
-            h-[84px]
-            mx-auto
-            px-6 md:px-12 lg:px-[140px]
-            flex items-center justify-between
-          "
-        >
+        <div className="
+          max-w-[1440px]
+          h-[84px]
+          mx-auto
+          px-6 md:px-12 lg:px-[140px]
+          flex items-center justify-between
+        ">
           {/* LOGO */}
           <div
             onClick={scrollToTop}
-            className="flex items-center gap-2 font-semibold cursor-pointer text-black dark:text-white"
+            className="
+              flex items-center gap-2
+              cursor-pointer
+              font-bold
+              text-black dark:text-white
+            "
           >
-            <img
-              src="/logo-symbol.png"
-              alt="Company Logo"
-              className="h-8 w-auto"
-            />
+            <img src="/logo-symbol.png" alt="Logo" className="h-8 w-auto" />
             Your Logo
           </div>
 
@@ -115,10 +114,10 @@ const Navbar = () => {
                 onClick={() => scrollToSection(item.target)}
                 className="
                   px-4 py-2 rounded-full
-                  text-neutral-700 dark:text-neutral-300
+                  font-bold
+                  text-black dark:text-white
                   transition-all duration-300
-                  hover:bg-white hover:text-black hover:shadow-sm
-                  dark:hover:bg-neutral-800/80 dark:hover:text-white
+                  hover:bg-black/5 dark:hover:bg-white/10
                 "
               >
                 {item.label}
@@ -129,7 +128,7 @@ const Navbar = () => {
           {/* ================= DESKTOP ACTIONS ================= */}
           <div className="hidden lg:flex items-center gap-4">
             <ThemeToggle theme={theme} onToggle={toggleTheme} />
-            <Button className="px-6 py-2 text-sm">
+            <Button className="px-6 py-2 text-sm font-bold">
               Let&apos;s Talk
             </Button>
           </div>
@@ -152,58 +151,42 @@ const Navbar = () => {
         className={`
           fixed inset-0 z-[60]
           bg-white dark:bg-black
-          transition-transform duration-300 ease-in-out
+          transition-transform duration-300
           ${open ? "translate-x-0" : "translate-x-full"}
         `}
       >
-        {/* MOBILE HEADER */}
-        <div className="h-[84px] px-6 flex items-center justify-between border-b border-neutral-200 dark:border-white/10">
+        <div className="h-[84px] px-6 flex items-center justify-between border-b border-black/10 dark:border-white/10">
           <div
             onClick={scrollToTop}
-            className="flex items-center gap-2 font-semibold cursor-pointer text-black dark:text-white"
+            className="flex items-center gap-2 font-bold cursor-pointer text-black dark:text-white"
           >
-            <img
-              src="/logo-symbol.png"
-              alt="Company Logo"
-              className="h-7 w-auto"
-            />
+            <img src="/logo-symbol.png" alt="Logo" className="h-7 w-auto" />
             Your Logo
           </div>
 
-          <button
-            onClick={() => setOpen(false)}
-            className="text-black dark:text-white"
-          >
-            <X className="w-6 h-6" />
+          <button onClick={() => setOpen(false)}>
+            <X className="w-6 h-6 text-black dark:text-white" />
           </button>
         </div>
 
-        {/* MOBILE MENU */}
-        <nav className="px-6 py-10 space-y-6 text-sm text-neutral-600 dark:text-neutral-300">
+        <nav className="px-6 py-10 space-y-6 text-sm">
           {MENU.map((item) => (
             <button
               key={item.target}
               onClick={() => scrollToSection(item.target)}
-              className="block w-full text-left hover:text-black dark:hover:text-white transition"
+              className="
+                block w-full text-left
+                font-bold
+                text-black dark:text-white
+                hover:opacity-80
+                transition
+              "
             >
               {item.label}
             </button>
           ))}
 
-          <button
-            onClick={toggleTheme}
-            className="
-              mt-6 w-full py-3 rounded-full
-              border border-neutral-300 dark:border-neutral-700
-              flex items-center justify-center gap-2
-              text-black dark:text-white
-            "
-          >
-            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-            Switch Theme
-          </button>
-
-          <Button className="w-full mt-6 py-4">
+          <Button className="w-full mt-8 py-4 font-bold">
             Let&apos;s Talk
           </Button>
         </nav>
@@ -225,23 +208,17 @@ function ThemeToggle({
   return (
     <button
       onClick={onToggle}
-      aria-label="Toggle theme"
       className="
         w-9 h-9 rounded-full
         flex items-center justify-center
-        border border-neutral-300 dark:border-neutral-700
+        border border-black/20 dark:border-white/20
         bg-white/80 dark:bg-black/70
-        backdrop-blur-md
-        text-neutral-700 dark:text-neutral-300
-        hover:bg-neutral-200/70 dark:hover:bg-neutral-800/70
+        text-black dark:text-white
+        hover:bg-black/10 dark:hover:bg-white/10
         transition
       "
     >
-      {theme === "dark" ? (
-        <Sun className="w-4 h-4" />
-      ) : (
-        <Moon className="w-4 h-4" />
-      )}
+      {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
     </button>
   );
 }

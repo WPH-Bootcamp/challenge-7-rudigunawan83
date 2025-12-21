@@ -1,11 +1,9 @@
 import Button from "../../ui/Button";
 
-const NAV_HEIGHT = 84;
-
 const Hero = () => {
   return (
     <section
-      id="About"
+      id="hero"
       className="
         relative overflow-hidden
         bg-white dark:bg-black

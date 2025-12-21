@@ -44,7 +44,7 @@ const FaqSection = () => {
 
   return (
     <section
-      id="FAQ"
+      id="faq"
       className="
         bg-white text-black
         dark:bg-black dark:text-white
