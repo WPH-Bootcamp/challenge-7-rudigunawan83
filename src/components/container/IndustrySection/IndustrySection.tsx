@@ -36,7 +36,7 @@ const IndustrySection = () => {
 
   return (
     <section
-      id="Projects"
+      id="projects"
       className="
         bg-white text-black
         dark:bg-black dark:text-white

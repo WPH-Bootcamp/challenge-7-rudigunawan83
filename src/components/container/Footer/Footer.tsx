@@ -88,35 +88,35 @@ const Footer = () => {
             "
           >
             {/* LINKS */}
-            <nav
-              className="
-                flex
-                flex-wrap
-                justify-center
-                md:justify-start
-                gap-6
-                md:gap-8
-                text-sm
-                text-neutral-600
-                dark:text-neutral-400
-              "
-            >
-              <a href="#about" className="hover:text-black dark:hover:text-white transition">
-                About
-              </a>
-              <a href="#services" className="hover:text-black dark:hover:text-white transition">
-                Service
-              </a>
-              <a href="#projects" className="hover:text-black dark:hover:text-white transition">
-                Projects
-              </a>
-              <a href="#testimonials" className="hover:text-black dark:hover:text-white transition">
-                Testimonials
-              </a>
-              <a href="#faq" className="hover:text-black dark:hover:text-white transition">
-                FAQ
-              </a>
-            </nav>
+           <nav
+                className="
+                  flex
+                  flex-wrap
+                  justify-center
+                  md:justify-start
+                  gap-6
+                  md:gap-8
+                  text-sm
+                  text-neutral-600
+                  dark:text-neutral-400
+                "
+              >
+                <a href="#hero" className="hover:text-black dark:hover:text-white transition">
+                  About
+                </a>
+                <a href="#service" className="hover:text-black dark:hover:text-white transition">
+                  Service
+                </a>
+                <a href="#projects" className="hover:text-black dark:hover:text-white transition">
+                  Projects
+                </a>
+                <a href="#testimonials" className="hover:text-black dark:hover:text-white transition">
+                  Testimonials
+                </a>
+                <a href="#faq" className="hover:text-black dark:hover:text-white transition">
+                  FAQ
+                </a>
+              </nav>
 
             {/* SOCIAL ICONS */}
             <div className="flex gap-4">

@@ -55,7 +55,7 @@ const services: Service[] = [
 const ServicesSection = () => {
   return (
     <section
-      id="Service"
+      id="service"
       className="
         bg-white text-black
         dark:bg-black dark:text-white

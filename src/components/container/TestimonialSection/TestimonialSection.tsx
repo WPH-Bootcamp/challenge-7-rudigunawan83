@@ -43,7 +43,6 @@ const DATA: Testimonial[] = [
 
 const GAP = 20;
 const CARD_WIDTH = 594;
-const CARD_HEIGHT = 292;
 
 const SWIPE_THRESHOLD = 80;
 const items = [...DATA, ...DATA, ...DATA];
